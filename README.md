@@ -2,8 +2,7 @@
 
 > A single, print-ready visual that encodes a complete production-grade AI development operating system — deployable in one command, shareable as a URL.
 
-<!-- TODO: Add screenshot here after first deploy -->
-<!-- ![App screenshot](docs/screenshot.png) -->
+![App screenshot](docs/screenshot.png)
 
 ---
 
@@ -23,8 +22,7 @@ Includes a **Governance side panel** (6 operating rules) and **Print to PDF** wi
 
 ## Live Demo
 
-<!-- TODO: Add Vercel deploy URL -->
-🚧 Deploy in progress — see [ROADMAP.md](docs/ROADMAP.md) Week 1
+**[https://ai-workflow-woad.vercel.app](https://ai-workflow-woad.vercel.app)**
 
 ---
 
@@ -105,7 +103,7 @@ ai-workflow/
 See [docs/ROADMAP.md](docs/ROADMAP.md) for the full 4-week sprint plan and 3-month milestones.
 
 **Current priorities:**
-- [ ] Week 1: Deploy to Vercel, fix package.json, remove MUI
+- [x] Week 1: Deploy to Vercel, fix package.json, remove MUI
 - [ ] Week 2: ESLint + Prettier, mobile overflow fix, prune unused components
 - [ ] Week 3: Add interactive checklist feature
 - [ ] Week 4: Lighthouse audit, analytics, CI/CD

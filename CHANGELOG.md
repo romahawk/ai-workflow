@@ -9,6 +9,15 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+### Fixed
+- Moved `react` and `react-dom` from `peerDependencies` to `dependencies` (correct for app, not library)
+- Removed unused MUI (`@mui/material`, `@mui/icons-material`, `@emotion/react`, `@emotion/styled`) — ~300KB bundle reduction
+- Added `preview` and `lint` scripts to `package.json`
+- Renamed package from `@figma/my-make-file` to `ai-workflow`; bumped version to `0.1.0`
+
+### Changed
+- README updated with live deploy URL and corrected Week 1 roadmap status
+
 ### Added
 - `docs/PRD.md` — product requirements document
 - `docs/ARCHITECTURE.md` — system design and key decisions
