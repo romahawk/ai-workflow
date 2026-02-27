@@ -34,6 +34,8 @@ import { WorkflowSection } from "./components/WorkflowSection";
 import { Node, ToolNode } from "./components/Node";
 import { ConnectionArrow } from "./components/ConnectionArrow";
 import { Navbar } from "./components/Navbar";
+import { ProjectsPanel } from "./components/ProjectsPanel";
+import { DailyChecklistPanel } from "./components/DailyChecklistPanel";
 
 /* ─── Stage metadata ──────────────────────────────────────────────── */
 const STAGES = [
@@ -464,6 +466,7 @@ export default function Home() {
   const [orientation, setOrientation] = useState<"landscape" | "portrait">("landscape");
   const [activeStage, setActiveStage] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
+  const [sidebarTab, setSidebarTab] = useState<"projects" | "daily" | "rules">("projects");
 
   const goTo = (next: number) => {
     setDirection(next > activeStage ? 1 : -1);
@@ -574,10 +577,31 @@ export default function Home() {
               </AnimatePresence>
             </div>
 
-            {/* Sidebar: Operating Rules (xl+) */}
-            <div className="hidden xl:flex flex-col w-[240px] flex-shrink-0 border-l border-gray-100 overflow-y-auto bg-white/50">
-              <div className="p-6 pt-8">
-                <SidePanel />
+            {/* Sidebar (xl+) */}
+            <div className="hidden xl:flex flex-col w-[240px] flex-shrink-0 border-l border-gray-100 bg-white/50">
+              {/* Tabs */}
+              <div className="flex flex-shrink-0 border-b border-gray-100">
+                {(["projects", "daily", "rules"] as const).map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setSidebarTab(tab)}
+                    className={`flex-1 text-[10px] font-black uppercase tracking-widest py-2.5 transition-colors ${
+                      sidebarTab === tab
+                        ? "text-gray-900 border-b-2 border-gray-900 -mb-px bg-white"
+                        : "text-gray-400 hover:text-gray-600"
+                    }`}
+                  >
+                    {tab === "projects" ? "Projects" : tab === "daily" ? "Daily" : "Rules"}
+                  </button>
+                ))}
+              </div>
+              {/* Panel */}
+              <div className="flex-1 overflow-y-auto p-5 pt-6">
+                {sidebarTab === "projects" && (
+                  <ProjectsPanel onStageSelect={goTo} />
+                )}
+                {sidebarTab === "daily" && <DailyChecklistPanel />}
+                {sidebarTab === "rules" && <SidePanel />}
               </div>
             </div>
           </div>
