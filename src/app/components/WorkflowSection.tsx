@@ -9,6 +9,7 @@ interface WorkflowSectionProps {
   className?: string;
   note?: string;
   footer?: ReactNode;
+  fullWidth?: boolean;
 }
 
 export const WorkflowSection: React.FC<WorkflowSectionProps> = ({
@@ -19,6 +20,7 @@ export const WorkflowSection: React.FC<WorkflowSectionProps> = ({
   className = "",
   note,
   footer,
+  fullWidth = false,
 }) => {
   const bgColorMap: Record<string, string> = {
     blue: "bg-blue-50/30 border-blue-100",
@@ -38,12 +40,12 @@ export const WorkflowSection: React.FC<WorkflowSectionProps> = ({
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: -20 }}
+      initial={fullWidth ? false : { opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay, duration: 0.5, ease: "easeOut" }}
-      className={`relative flex flex-col p-6 rounded-2xl border min-w-[320px] max-w-[400px] h-fit transition-all ${
-        bgColorMap[color] || bgColorMap.blue
-      } ${className}`}
+      className={`relative flex flex-col p-6 rounded-2xl border h-fit transition-all ${
+        fullWidth ? "w-full min-w-0" : "min-w-[320px] max-w-[400px]"
+      } ${bgColorMap[color] || bgColorMap.blue} ${className}`}
     >
       <div
         className={`inline-block w-fit px-3 py-1 rounded-lg border mb-6 text-xs font-bold uppercase tracking-widest ${
@@ -60,7 +62,7 @@ export const WorkflowSection: React.FC<WorkflowSectionProps> = ({
       {note && (
         <div className="mt-8 pt-4 border-t border-dashed border-current opacity-60">
           <p className="text-[11px] italic text-gray-600 font-medium italic leading-relaxed">
-            “{note}”
+            "{note}"
           </p>
         </div>
       )}
@@ -73,3 +75,4 @@ export const WorkflowSection: React.FC<WorkflowSectionProps> = ({
     </motion.div>
   );
 };
+
