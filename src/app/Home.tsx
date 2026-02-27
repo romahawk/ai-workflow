@@ -25,6 +25,8 @@ import {
   MonitorCheck,
   Github,
   ArrowUpRight,
+  Star,
+  Mail,
 } from "lucide-react";
 import { WorkflowSection } from "./components/WorkflowSection";
 import { Node, ToolNode } from "./components/Node";
@@ -85,41 +87,101 @@ const SidePanel = () => {
 
 const Header = () => (
   <header className="flex flex-col items-center justify-center pt-10 pb-8 px-6 print:pt-4 print:pb-8">
+    {/* Author attribution badge */}
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4 }}
-      className="px-3.5 py-1.5 rounded-full bg-gray-900 text-white flex items-center gap-2 mb-5 print:hidden"
+      className="flex items-center gap-3 mb-5"
     >
-      <Zap className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-      <span className="text-[10px] font-black uppercase tracking-[0.25em]">Production-Grade System</span>
+      <div className="px-3.5 py-1.5 rounded-full bg-gray-900 text-white flex items-center gap-2">
+        <Zap className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+        <span className="text-[10px] font-black uppercase tracking-[0.25em]">Production-Grade System</span>
+      </div>
+      <span className="text-[11px] text-gray-400 font-semibold hidden sm:block print:hidden">
+        by Roman Mazuryk
+      </span>
     </motion.div>
+
+    {/* Proprietary title */}
+    <motion.p
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: 0.05 }}
+      className="text-[11px] font-black uppercase tracking-[0.3em] text-gray-400 mb-2 print:text-[9px]"
+    >
+      Roman Mazuryk's
+    </motion.p>
 
     <motion.h1
       initial={{ opacity: 0, y: -16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.05 }}
+      transition={{ duration: 0.5, delay: 0.1 }}
       className="text-4xl md:text-5xl font-black text-gray-900 text-center tracking-tighter leading-[1.1] max-w-3xl print:text-2xl"
     >
-      AI × Leverage Framework
+      SDLC Workflow Algorithm
     </motion.h1>
 
     <motion.p
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.15 }}
+      transition={{ duration: 0.5, delay: 0.18 }}
       className="mt-3 text-base text-gray-500 text-center max-w-xl leading-relaxed print:text-sm"
     >
-      A production-grade solo workflow — from weekly strategy to daily shipping to public proof-of-work.
+      AI-augmented, production-grade solo engineering — from weekly strategy to daily shipping to public proof-of-work.
     </motion.p>
   </header>
 );
 
+const CTASection = () => (
+  <motion.section
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 1.8, duration: 0.6 }}
+    className="w-full my-8 print:hidden"
+  >
+    <div className="max-w-4xl mx-auto px-6">
+      <div className="bg-gray-900 rounded-2xl px-8 py-7 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div className="flex flex-col gap-1">
+          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500">Open to opportunities</span>
+          <p className="text-white font-black text-lg tracking-tight leading-tight">
+            Roman Mazuryk
+          </p>
+          <p className="text-gray-400 text-[13px] font-medium">
+            Senior Engineer · Solo Founder · Remote-First
+          </p>
+        </div>
+        <div className="flex items-center gap-3 flex-shrink-0">
+          <a
+            href="https://github.com/romahawk/ai-workflow"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-700 text-gray-300 hover:border-gray-500 hover:text-white transition-all text-[12px] font-bold"
+          >
+            <Star className="w-3.5 h-3.5" />
+            Star on GitHub
+          </a>
+          {/* Replace href with your portfolio contact URL or mailto:you@email.com */}
+          <a
+            href="https://github.com/romahawk"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition-all text-[12px] font-bold shadow-lg shadow-blue-900/30"
+          >
+            <Mail className="w-3.5 h-3.5" />
+            Get in Touch
+          </a>
+        </div>
+      </div>
+    </div>
+  </motion.section>
+);
+
 const Footer = () => (
-  <footer className="w-full py-12 print:hidden">
-    <div className="border-t border-gray-100 pt-10 max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
-      <p className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.3em]">
-        Designed for Remote-First Agile Environments
+  <footer className="w-full pb-10 print:hidden">
+    <div className="border-t border-gray-100 pt-8 max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p className="text-[11px] text-gray-400 tracking-wide">
+        © {new Date().getFullYear()} Roman Mazuryk · SDLC Workflow Algorithm
       </p>
       <div className="flex items-center gap-5">
         <a
@@ -129,7 +191,7 @@ const Footer = () => (
           className="flex items-center gap-1.5 text-gray-400 hover:text-gray-900 transition-colors text-[12px] font-semibold"
         >
           <Github className="w-3.5 h-3.5" />
-          View source
+          Source
         </a>
         <a
           href="https://github.com/romahawk/ai-workflow/blob/main/docs/ROADMAP.md"
@@ -392,6 +454,7 @@ export default function Home() {
 
         </div>
 
+        <CTASection />
         <Footer />
       </div>
     </div>

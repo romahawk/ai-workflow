@@ -16,15 +16,16 @@ export const Navbar: React.FC<NavbarProps> = ({ orientation, setOrientation }) =
       className="fixed top-0 left-0 right-0 z-50 h-14 bg-white/80 backdrop-blur-md border-b border-gray-100 flex items-center px-4 sm:px-8 gap-4 print:hidden"
     >
       {/* Brand */}
-      <div className="flex items-center gap-2 flex-1">
-        <div className="w-6 h-6 rounded-md bg-gray-900 flex items-center justify-center flex-shrink-0">
-          <Zap className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+      <div className="flex items-center gap-2.5 flex-1 min-w-0">
+        {/* Monogram */}
+        <div className="w-7 h-7 rounded-md bg-gray-900 flex items-center justify-center flex-shrink-0">
+          <span className="text-[10px] font-black text-white tracking-tight">RM</span>
         </div>
-        <span className="text-[13px] font-black text-gray-900 tracking-tight hidden sm:block">
-          AI × Leverage
+        <span className="text-[13px] font-black text-gray-900 tracking-tight hidden sm:block whitespace-nowrap">
+          Roman Mazuryk
         </span>
         <span className="text-gray-300 hidden sm:block">·</span>
-        <span className="text-[13px] text-gray-500 hidden md:block">Production-Grade Solo Workflow</span>
+        <span className="text-[12px] text-gray-400 hidden md:block truncate">SDLC Workflow Algorithm</span>
       </div>
 
       {/* Controls */}
