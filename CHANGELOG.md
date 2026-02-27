@@ -1,0 +1,48 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+Versioning: [Semantic Versioning](https://semver.org/)
+
+---
+
+## [Unreleased]
+
+### Added
+- `docs/PRD.md` — product requirements document
+- `docs/ARCHITECTURE.md` — system design and key decisions
+- `docs/ROADMAP.md` — 4-week sprint + 3-month milestone plan
+- `docs/DECISIONS_LOG.md` — architecture decision records (ADRs 001–005)
+- `.github/ISSUE_TEMPLATE/feature.md` — feature request template
+- `.github/ISSUE_TEMPLATE/bug.md` — bug report template
+- `.github/pull_request_template.md` — PR review template
+- `CHANGELOG.md` — this file
+- `.env.example` — environment variable reference
+- `CONTRIBUTING.md` — development workflow guide
+- Updated `README.md` with 30-second pitch, stack table, structure, and roadmap link
+
+---
+
+## [0.1.0] — 2026-02-27 (Initial prototype)
+
+### Added
+- React + Vite + TypeScript project scaffold (Figma Make export)
+- 5-layer animated workflow diagram (Strategy / Architecture / Build Loop / Hardening / Signal)
+- Governance side panel with 6 operating rules
+- Print-to-PDF with landscape/portrait orientation toggle
+- `ConnectionArrow` animated section connectors
+- `WorkflowSection` reusable panel component
+- `Node` and `ToolNode` workflow step components
+- Full shadcn/ui component library (Radix UI foundation)
+- Framer Motion entrance animations with staggered delays
+- `ATTRIBUTIONS.md` noting shadcn/ui MIT license
+
+### Known issues
+- `react` and `react-dom` incorrectly listed as `peerDependencies` (should be `dependencies`)
+- MUI (`@mui/material`, `@emotion/*`) installed but unused — adds ~300KB to bundle
+- No TypeScript config file (`tsconfig.json`) — implicit Vite defaults
+- No linting or formatting config
+- No tests
+- No deployment pipeline
+- Mobile horizontal overflow on viewports < 1024px
