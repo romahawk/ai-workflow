@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
-import { 
-  Target, 
-  Layout, 
-  Code2, 
-  ShieldCheck, 
-  Briefcase, 
-  Bot, 
-  Layers, 
-  Zap, 
+import {
+  Target,
+  Layout,
+  Code2,
+  ShieldCheck,
+  Briefcase,
+  Bot,
+  Layers,
+  Zap,
   Terminal,
   FileCode2,
   GitBranch,
@@ -23,13 +23,13 @@ import {
   Video,
   FileText,
   MonitorCheck,
-  Download,
-  Monitor,
-  Smartphone
+  Github,
+  ArrowUpRight,
 } from "lucide-react";
 import { WorkflowSection } from "./components/WorkflowSection";
 import { Node, ToolNode } from "./components/Node";
 import { ConnectionArrow } from "./components/ConnectionArrow";
+import { Navbar } from "./components/Navbar";
 
 const SidePanel = () => {
   const rules = [
@@ -38,7 +38,7 @@ const SidePanel = () => {
     "No refactor without shipping impact",
     "One source of truth per layer",
     "AI accelerates, does not decide",
-    "If not deployed, it doesn’t count"
+    "If not deployed, it doesn't count"
   ];
 
   return (
@@ -46,116 +46,101 @@ const SidePanel = () => {
       initial={{ opacity: 0, x: 40 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 1, duration: 0.6 }}
-      className="w-[300px] bg-white border border-gray-200 rounded-3xl p-8 shadow-xl shadow-gray-100/50 flex flex-col gap-8 h-fit lg:sticky top-12 self-start"
+      className="w-[280px] bg-white border border-gray-200 rounded-2xl p-6 shadow-lg shadow-gray-100/50 flex flex-col gap-6 h-fit lg:sticky top-20 self-start"
     >
-      <div className="flex flex-col gap-2">
-        <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400">Governance (Side Panel)</h3>
-        <h4 className="text-lg font-black text-gray-900 leading-tight">Operating Rules</h4>
-        <div className="h-1 w-12 bg-gray-900 rounded-full mt-1" />
+      <div className="flex flex-col gap-1.5">
+        <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Governance</span>
+        <h4 className="text-base font-black text-gray-900 leading-tight">Operating Rules</h4>
+        <div className="h-0.5 w-8 bg-gray-900 rounded-full mt-1" />
       </div>
 
-      <ul className="flex flex-col gap-5">
+      <ul className="flex flex-col gap-4">
         {rules.map((rule, idx) => (
           <motion.li
             key={idx}
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.2 + idx * 0.1, duration: 0.3 }}
+            transition={{ delay: 1.2 + idx * 0.08, duration: 0.3 }}
             className="flex items-start gap-3 group"
           >
             <div className="w-5 h-5 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-gray-900 group-hover:border-gray-900 transition-colors">
               <Zap className="w-2.5 h-2.5 text-gray-400 group-hover:text-white transition-colors" />
             </div>
-            <span className="text-[13px] font-bold text-gray-700 leading-snug">{rule}</span>
+            <span className="text-[13px] font-semibold text-gray-700 leading-snug">{rule}</span>
           </motion.li>
         ))}
       </ul>
 
-      <div className="mt-4 pt-8 border-t border-gray-100 flex flex-col gap-4">
-        <div className="flex flex-col gap-3">
-          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Optional Control Tools</span>
-          <div className="flex flex-wrap gap-2">
-            <ToolNode name="Linear" type="secondary" />
-            <ToolNode name="Trello" type="secondary" />
-            <ToolNode name="Calendar" type="secondary" />
-          </div>
+      <div className="pt-5 border-t border-gray-100 flex flex-col gap-3">
+        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Optional Tools</span>
+        <div className="flex flex-wrap gap-2">
+          <ToolNode name="Linear" type="secondary" />
+          <ToolNode name="Trello" type="secondary" />
+          <ToolNode name="Calendar" type="secondary" />
         </div>
       </div>
     </motion.aside>
   );
 };
 
-interface HeaderProps {
-  orientation: "landscape" | "portrait";
-  setOrientation: (o: "landscape" | "portrait") => void;
-}
+const Header = () => (
+  <header className="flex flex-col items-center justify-center pt-10 pb-8 px-6 print:pt-4 print:pb-8">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4 }}
+      className="px-3.5 py-1.5 rounded-full bg-gray-900 text-white flex items-center gap-2 mb-5 print:hidden"
+    >
+      <Zap className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+      <span className="text-[10px] font-black uppercase tracking-[0.25em]">Production-Grade System</span>
+    </motion.div>
 
-const Header: React.FC<HeaderProps> = ({ orientation, setOrientation }) => {
-  const handlePrint = () => {
-    window.print();
-  };
+    <motion.h1
+      initial={{ opacity: 0, y: -16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.05 }}
+      className="text-4xl md:text-5xl font-black text-gray-900 text-center tracking-tighter leading-[1.1] max-w-3xl print:text-2xl"
+    >
+      AI × Leverage Framework
+    </motion.h1>
 
-  return (
-    <header className="flex flex-col items-center justify-center py-16 px-6 gap-3 mb-8 print:p-0 print:mb-12">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="px-4 py-1.5 rounded-full bg-gray-900 text-white flex items-center gap-2 mb-4 print:hidden"
-      >
-        <Zap className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-        <span className="text-[10px] font-black uppercase tracking-[0.25em]">Production-Grade System</span>
-      </motion.div>
-      <motion.h1 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-4xl md:text-5xl font-black text-gray-900 text-center tracking-tighter leading-[1.1] max-w-4xl print:text-3xl"
-      >
-        AI × Leverage Framework — Production-Grade Solo Workflow
-      </motion.h1>
-      
-      <div className="flex flex-col sm:flex-row items-center gap-4 mt-8 print:hidden">
-        <div className="flex bg-gray-100 p-1 rounded-xl border border-gray-200">
-          <button
-            onClick={() => setOrientation("landscape")}
-            className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-[11px] font-black uppercase transition-all ${
-              orientation === "landscape" ? "bg-white text-gray-900 shadow-sm" : "text-gray-400 hover:text-gray-600"
-            }`}
-          >
-            <Monitor className="w-3 h-3" />
-            Landscape
-          </button>
-          <button
-            onClick={() => setOrientation("portrait")}
-            className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-[11px] font-black uppercase transition-all ${
-              orientation === "portrait" ? "bg-white text-gray-900 shadow-sm" : "text-gray-400 hover:text-gray-600"
-            }`}
-          >
-            <Smartphone className="w-3 h-3" />
-            Portrait
-          </button>
-        </div>
-
-        <motion.button
-          onClick={handlePrint}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all shadow-lg shadow-blue-100 font-bold text-sm"
-        >
-          <Download className="w-4 h-4" />
-          Save as PDF
-        </motion.button>
-      </div>
-    </header>
-  );
-};
+    <motion.p
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.15 }}
+      className="mt-3 text-base text-gray-500 text-center max-w-xl leading-relaxed print:text-sm"
+    >
+      A production-grade solo workflow — from weekly strategy to daily shipping to public proof-of-work.
+    </motion.p>
+  </header>
+);
 
 const Footer = () => (
-  <footer className="w-full py-16 flex justify-center items-center">
-    <div className="flex flex-col items-center gap-4 border-t border-gray-100 pt-12 w-full max-w-4xl mx-auto px-6">
-      <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.4em]">
+  <footer className="w-full py-12 print:hidden">
+    <div className="border-t border-gray-100 pt-10 max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <p className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.3em]">
         Designed for Remote-First Agile Environments
       </p>
+      <div className="flex items-center gap-5">
+        <a
+          href="https://github.com/romahawk/ai-workflow"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 text-gray-400 hover:text-gray-900 transition-colors text-[12px] font-semibold"
+        >
+          <Github className="w-3.5 h-3.5" />
+          View source
+        </a>
+        <a
+          href="https://github.com/romahawk/ai-workflow/blob/main/docs/ROADMAP.md"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1 text-gray-400 hover:text-blue-600 transition-colors text-[12px] font-semibold"
+        >
+          Roadmap
+          <ArrowUpRight className="w-3 h-3" />
+        </a>
+      </div>
     </div>
   </footer>
 );
@@ -212,20 +197,25 @@ export default function Home() {
           }
         }
       `}</style>
-      <div className="fixed inset-0 pointer-events-none opacity-[0.02] bg-[url('https://www.transparenttextures.com/patterns/graphy.png')] bg-repeat print:hidden" />
-      
-      <div className="relative z-10 max-w-[1920px] mx-auto px-4 sm:px-8 lg:px-12 py-8 print:p-0">
-        <Header orientation={orientation} setOrientation={setOrientation} />
 
-        <div className="flex flex-col lg:flex-row gap-16 items-start justify-center print:block">
-          
+      {/* Subtle texture */}
+      <div className="fixed inset-0 pointer-events-none opacity-[0.018] bg-[url('https://www.transparenttextures.com/patterns/graphy.png')] bg-repeat print:hidden" />
+
+      {/* Navbar */}
+      <Navbar orientation={orientation} setOrientation={setOrientation} />
+
+      <div className="relative z-10 max-w-[1920px] mx-auto px-4 sm:px-8 lg:px-12 pt-14 print:p-0">
+        <Header />
+
+        <div className="flex flex-col lg:flex-row gap-12 items-start justify-center print:block">
+
           <main className="flex-1 w-full overflow-x-auto pb-12 no-scrollbar print:pb-0">
             <div className="flex gap-4 items-start min-w-max px-4 print-grid-layout">
-              
-              {/* SECTION 1 - STRATEGY LAYER */}
-              <WorkflowSection 
-                title="Strategy / Architect (Weekly Decision Compression)" 
-                color="blue" 
+
+              {/* SECTION 1 — STRATEGY */}
+              <WorkflowSection
+                title="Strategy / Architect (Weekly Decision Compression)"
+                color="blue"
                 delay={0.1}
                 note="AI supports clarity. Human owns scope."
                 footer={
@@ -249,10 +239,10 @@ export default function Home() {
 
               <ConnectionArrow delay={0.3} />
 
-              {/* SECTION 2 - ARCHITECTURE LAYER */}
-              <WorkflowSection 
-                title="Architecture & System Design" 
-                color="purple" 
+              {/* SECTION 2 — ARCHITECTURE */}
+              <WorkflowSection
+                title="Architecture & System Design"
+                color="purple"
                 delay={0.3}
                 footer={
                   <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-purple-100/40">
@@ -276,10 +266,10 @@ export default function Home() {
 
               <ConnectionArrow delay={0.5} />
 
-              {/* SECTION 3 - BUILD LOOP */}
-              <WorkflowSection 
-                title="Daily Build Loop" 
-                color="green" 
+              {/* SECTION 3 — BUILD LOOP */}
+              <WorkflowSection
+                title="Daily Build Loop"
+                color="green"
                 delay={0.5}
                 note="Small PRs. Async clarity. Ship daily."
                 footer={
@@ -298,38 +288,38 @@ export default function Home() {
               >
                 <div className="flex flex-col gap-3 relative">
                   <div className="absolute left-[11px] top-6 bottom-6 w-0.5 border-l-2 border-dashed border-green-200" />
-                  <div className="flex items-center gap-2 group">
-                     <div className="w-6 h-6 rounded-full bg-green-500 border-4 border-white shadow-sm flex-shrink-0 z-10" />
-                     <Node label="Select GitHub Issue" icon={MessageCircleCode} className="flex-1" />
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-green-500 border-4 border-white shadow-sm flex-shrink-0 z-10" />
+                    <Node label="Select GitHub Issue" icon={MessageCircleCode} className="flex-1" />
                   </div>
                   <div className="flex items-center gap-2 pl-4">
-                     <Node label="Define Micro-Scope" icon={Target} className="flex-1" />
+                    <Node label="Define Micro-Scope" icon={Target} className="flex-1" />
                   </div>
                   <div className="flex items-center gap-2 pl-4">
-                     <Node label="Implement" icon={Code2} className="flex-1 bg-green-50/50 border-green-200" />
+                    <Node label="Implement" icon={Code2} className="flex-1 bg-green-50/50 border-green-200" />
                   </div>
                   <div className="flex items-center gap-2 pl-4">
-                     <Node label="AI Code Review" icon={Bot} className="flex-1" />
+                    <Node label="AI Code Review" icon={Bot} className="flex-1" />
                   </div>
                   <div className="flex items-center gap-2 pl-4">
-                     <Node label="Manual Reasoning Pass" icon={MousePointer2} className="flex-1" />
+                    <Node label="Manual Reasoning Pass" icon={MousePointer2} className="flex-1" />
                   </div>
                   <div className="flex items-center gap-2 pl-4">
-                     <Node label="PR + Merge" icon={GitBranch} className="flex-1" />
+                    <Node label="PR + Merge" icon={GitBranch} className="flex-1" />
                   </div>
-                  <div className="flex items-center gap-2 group">
-                     <div className="w-6 h-6 rounded-full bg-green-600 border-4 border-white shadow-md flex-shrink-0 z-10 animate-pulse" />
-                     <Node label="Deploy" icon={Rocket} className="flex-1 bg-green-600 text-white border-none shadow-lg" />
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-green-600 border-4 border-white shadow-md flex-shrink-0 z-10 animate-pulse" />
+                    <Node label="Deploy" icon={Rocket} className="flex-1 bg-green-600 text-white border-none shadow-lg" />
                   </div>
                 </div>
               </WorkflowSection>
 
               <ConnectionArrow delay={0.7} />
 
-              {/* SECTION 4 - PRODUCTION HARDENING */}
-              <WorkflowSection 
-                title="Production Hardening" 
-                color="amber" 
+              {/* SECTION 4 — PRODUCTION HARDENING */}
+              <WorkflowSection
+                title="Production Hardening"
+                color="amber"
                 delay={0.7}
                 note="Production readiness > feature count."
                 footer={
@@ -354,10 +344,10 @@ export default function Home() {
 
               <ConnectionArrow delay={0.9} />
 
-              {/* SECTION 5 - SIGNAL LAYER */}
-              <WorkflowSection 
-                title="Professional Signal Layer" 
-                color="gray" 
+              {/* SECTION 5 — SIGNAL LAYER */}
+              <WorkflowSection
+                title="Professional Signal Layer"
+                color="gray"
                 delay={0.9}
                 footer={
                   <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-100">
@@ -378,8 +368,8 @@ export default function Home() {
                 <Node label="Public Deployment" icon={MonitorCheck} />
                 <Node label="Demo Recording" icon={Video} />
                 <Node label="Case Study Extraction" icon={FileText} />
-                
-                <motion.div 
+
+                <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 1.5, duration: 0.5 }}
@@ -392,7 +382,7 @@ export default function Home() {
                   <Rocket className="w-5 h-5 text-blue-400" />
                 </motion.div>
               </WorkflowSection>
-              
+
             </div>
           </main>
 
