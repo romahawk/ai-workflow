@@ -34,6 +34,7 @@ import { WorkflowSection } from "./components/WorkflowSection";
 import { Node, ToolNode } from "./components/Node";
 import { ConnectionArrow } from "./components/ConnectionArrow";
 import { Navbar } from "./components/Navbar";
+import { useTheme } from "../hooks/useTheme";
 
 /* ─── Stage metadata ──────────────────────────────────────────────── */
 const STAGES = [
@@ -461,6 +462,7 @@ const Footer = () => (
 
 /* ─── Main ────────────────────────────────────────────────────────── */
 export default function Home() {
+  const { dark, toggle } = useTheme();
   const [orientation, setOrientation] = useState<"landscape" | "portrait">("landscape");
   const [activeStage, setActiveStage] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
@@ -495,7 +497,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-[#FDFDFD] text-gray-900 font-sans selection:bg-blue-100 selection:text-blue-900 print:bg-white">
+    <div className="bg-background text-foreground font-sans selection:bg-blue-100 selection:text-blue-900 print:bg-white">
       <style>{`
         @media print {
           @page {
@@ -536,7 +538,7 @@ export default function Home() {
       <div className="fixed inset-0 pointer-events-none opacity-[0.018] bg-[url('https://www.transparenttextures.com/patterns/graphy.png')] bg-repeat print:hidden" />
 
       {/* ── Fixed chrome ─────────────────────────────────────────── */}
-      <Navbar orientation={orientation} setOrientation={setOrientation} />
+      <Navbar orientation={orientation} setOrientation={setOrientation} dark={dark} onToggle={toggle} />
       <StageNav active={activeStage} setActive={goTo} />
 
       {/* ── Screen view: single-stage viewport ───────────────────── */}
