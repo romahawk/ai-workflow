@@ -1,8 +1,10 @@
 import { RouterProvider } from 'react-router';
 import { router } from './routes';
 import '../styles/theme.css';
+import { useDynamicFavicon } from '../hooks/useDynamicFavicon';
 
 function App() {
+  useDynamicFavicon();
   return <RouterProvider router={router} />;
 }
 
