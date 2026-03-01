@@ -23,19 +23,19 @@ export const WorkflowSection: React.FC<WorkflowSectionProps> = ({
   fullWidth = false,
 }) => {
   const bgColorMap: Record<string, string> = {
-    blue: "bg-blue-50/30 border-blue-100",
-    purple: "bg-purple-50/30 border-purple-100",
-    green: "bg-green-50/30 border-green-100",
-    amber: "bg-amber-50/30 border-amber-100",
-    gray: "bg-gray-50/30 border-gray-100",
+    blue:   "bg-blue-50/30   dark:bg-blue-950/25   border-blue-100   dark:border-blue-900/50",
+    purple: "bg-purple-50/30 dark:bg-purple-950/25 border-purple-100 dark:border-purple-900/50",
+    green:  "bg-green-50/30  dark:bg-green-950/25  border-green-100  dark:border-green-900/50",
+    amber:  "bg-amber-50/30  dark:bg-amber-950/25  border-amber-100  dark:border-amber-900/50",
+    gray:   "bg-gray-50/30   dark:bg-zinc-900/50   border-gray-100   dark:border-zinc-800/60",
   };
 
   const accentColorMap: Record<string, string> = {
-    blue: "text-blue-700 bg-blue-100/50 border-blue-200",
-    purple: "text-purple-700 bg-purple-100/50 border-purple-200",
-    green: "text-green-700 bg-green-100/50 border-green-200",
-    amber: "text-amber-700 bg-amber-100/50 border-amber-200",
-    gray: "text-gray-700 bg-gray-100/50 border-gray-200",
+    blue:   "text-blue-700   dark:text-blue-300   bg-blue-100/50   dark:bg-blue-950/70   border-blue-200   dark:border-blue-800/60",
+    purple: "text-purple-700 dark:text-purple-300 bg-purple-100/50 dark:bg-purple-950/70 border-purple-200 dark:border-purple-800/60",
+    green:  "text-green-700  dark:text-green-300  bg-green-100/50  dark:bg-green-950/70  border-green-200  dark:border-green-800/60",
+    amber:  "text-amber-700  dark:text-amber-300  bg-amber-100/50  dark:bg-amber-950/70  border-amber-200  dark:border-amber-800/60",
+    gray:   "text-gray-700   dark:text-zinc-300   bg-gray-100/50   dark:bg-zinc-800/60   border-gray-200   dark:border-zinc-700/60",
   };
 
   return (
@@ -61,7 +61,7 @@ export const WorkflowSection: React.FC<WorkflowSectionProps> = ({
 
       {note && (
         <div className="mt-8 pt-4 border-t border-dashed border-current opacity-60">
-          <p className="text-[11px] italic text-gray-600 font-medium italic leading-relaxed">
+          <p className="text-[11px] italic text-gray-600 dark:text-zinc-400 font-medium leading-relaxed">
             "{note}"
           </p>
         </div>
@@ -75,4 +75,3 @@ export const WorkflowSection: React.FC<WorkflowSectionProps> = ({
     </motion.div>
   );
 };
-
