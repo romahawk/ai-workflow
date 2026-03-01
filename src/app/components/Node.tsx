@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "motion/react";
-import { LucideIcon } from "lucide-react";
+import { Check, LucideIcon } from "lucide-react";
 
 interface NodeProps {
   label: string;
@@ -8,21 +8,72 @@ interface NodeProps {
   subtext?: string;
   className?: string;
   delay?: number;
+  checkable?: boolean;
+  checked?: boolean;
+  onToggle?: () => void;
 }
 
-export const Node: React.FC<NodeProps> = ({ label, icon: Icon, subtext, className = "", delay = 0 }) => {
+export const Node: React.FC<NodeProps> = ({
+  label,
+  icon: Icon,
+  subtext,
+  className = "",
+  delay = 0,
+  checkable = false,
+  checked = false,
+  onToggle,
+}) => {
   return (
     <motion.div
+      role={checkable ? "button" : undefined}
+      tabIndex={checkable ? 0 : undefined}
+      onClick={checkable ? onToggle : undefined}
+      onKeyDown={checkable ? (e) => { if (e.key === "Enter" || e.key === " ") onToggle?.(); } : undefined}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.4 }}
-      className={`bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg p-3 shadow-sm dark:shadow-none hover:shadow-md transition-shadow flex items-start gap-3 min-w-[200px] ${className}`}
+      className={`group bg-white dark:bg-zinc-800 border rounded-lg p-3 shadow-sm dark:shadow-none flex items-start gap-3 min-w-[200px] transition-all ${
+        checkable ? "cursor-pointer select-none" : ""
+      } ${
+        checked
+          ? "border-green-200 dark:border-green-800/60 bg-green-50/40 dark:bg-green-950/20"
+          : "border-gray-200 dark:border-zinc-700 hover:shadow-md"
+      } ${className}`}
     >
-      {Icon && <Icon className="w-4 h-4 text-gray-400 dark:text-zinc-500 mt-1 flex-shrink-0" />}
-      <div className="flex flex-col">
-        <span className="text-sm font-medium text-gray-800 dark:text-zinc-200 leading-tight">{label}</span>
-        {subtext && <span className="text-[10px] text-gray-500 dark:text-zinc-500 mt-1 uppercase tracking-wider">{subtext}</span>}
+      {Icon && (
+        <Icon
+          className={`w-4 h-4 mt-1 flex-shrink-0 transition-colors ${
+            checked ? "text-green-500 dark:text-green-500" : "text-gray-400 dark:text-zinc-500"
+          }`}
+        />
+      )}
+      <div className="flex flex-col flex-1 min-w-0">
+        <span
+          className={`text-sm font-medium leading-tight transition-all ${
+            checked
+              ? "text-gray-400 dark:text-zinc-500 line-through"
+              : "text-gray-800 dark:text-zinc-200"
+          }`}
+        >
+          {label}
+        </span>
+        {subtext && (
+          <span className="text-[10px] text-gray-500 dark:text-zinc-500 mt-1 uppercase tracking-wider">
+            {subtext}
+          </span>
+        )}
       </div>
+      {checkable && (
+        <div
+          className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center transition-all ${
+            checked
+              ? "border-green-500 bg-green-500 dark:border-green-600 dark:bg-green-600"
+              : "border-gray-300 dark:border-zinc-600 group-hover:border-gray-400 dark:group-hover:border-zinc-400"
+          }`}
+        >
+          {checked && <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />}
+        </div>
+      )}
     </motion.div>
   );
 };
