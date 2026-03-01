@@ -42,8 +42,8 @@ const STAGES = [
     label: "Strategy / Architect",
     shortLabel: "Strategy",
     color: "blue",
-    activeText: "text-blue-600",
-    activeBg: "bg-blue-50",
+    activeText: "text-blue-600 dark:text-blue-400",
+    activeBg: "bg-blue-50 dark:bg-blue-950/40",
     progressBg: "bg-blue-500",
     dotColor: "bg-blue-500",
   },
@@ -51,8 +51,8 @@ const STAGES = [
     label: "Architecture & Design",
     shortLabel: "Architecture",
     color: "purple",
-    activeText: "text-purple-600",
-    activeBg: "bg-purple-50",
+    activeText: "text-purple-600 dark:text-purple-400",
+    activeBg: "bg-purple-50 dark:bg-purple-950/40",
     progressBg: "bg-purple-500",
     dotColor: "bg-purple-500",
   },
@@ -60,8 +60,8 @@ const STAGES = [
     label: "Daily Build Loop",
     shortLabel: "Build Loop",
     color: "green",
-    activeText: "text-green-600",
-    activeBg: "bg-green-50",
+    activeText: "text-green-600 dark:text-green-400",
+    activeBg: "bg-green-50 dark:bg-green-950/40",
     progressBg: "bg-green-500",
     dotColor: "bg-green-500",
   },
@@ -69,8 +69,8 @@ const STAGES = [
     label: "Production Hardening",
     shortLabel: "Hardening",
     color: "amber",
-    activeText: "text-amber-600",
-    activeBg: "bg-amber-50",
+    activeText: "text-amber-600 dark:text-amber-400",
+    activeBg: "bg-amber-50 dark:bg-amber-950/40",
     progressBg: "bg-amber-500",
     dotColor: "bg-amber-500",
   },
@@ -78,8 +78,8 @@ const STAGES = [
     label: "Professional Signal",
     shortLabel: "Signal Layer",
     color: "gray",
-    activeText: "text-gray-700",
-    activeBg: "bg-gray-50",
+    activeText: "text-gray-700 dark:text-zinc-300",
+    activeBg: "bg-gray-50 dark:bg-zinc-800/50",
     progressBg: "bg-gray-700",
     dotColor: "bg-gray-600",
   },
@@ -95,7 +95,7 @@ const StageNav = ({
 }) => {
   const progress = ((active + 1) / STAGES.length) * 100;
   return (
-    <div className="fixed top-14 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-100 print:hidden">
+    <div className="fixed top-14 left-0 right-0 z-40 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-sm border-b border-gray-100 dark:border-zinc-800 print:hidden">
       <div className="flex h-11">
         {STAGES.map((s, i) => (
           <button
@@ -104,12 +104,12 @@ const StageNav = ({
             className={`flex-1 flex items-center justify-center gap-1.5 text-[11px] font-bold transition-all relative overflow-hidden ${
               active === i
                 ? `${s.activeText} ${s.activeBg}`
-                : "text-gray-400 hover:text-gray-600 hover:bg-gray-50/50"
+                : "text-gray-400 hover:text-gray-600 hover:bg-gray-50/50 dark:text-zinc-500 dark:hover:text-zinc-300 dark:hover:bg-zinc-800/50"
             }`}
           >
             <span
               className={`w-4 h-4 rounded-full text-[9px] font-black flex items-center justify-center flex-shrink-0 transition-colors ${
-                active === i ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-500"
+                active === i ? "bg-gray-900 text-white dark:bg-white dark:text-gray-900" : "bg-gray-100 text-gray-500 dark:bg-zinc-800 dark:text-zinc-500"
               }`}
             >
               {i + 1}
@@ -125,13 +125,13 @@ const StageNav = ({
             )}
             {/* Column separator */}
             {i < STAGES.length - 1 && (
-              <div className="absolute right-0 top-3 bottom-3 w-px bg-gray-100 pointer-events-none" />
+              <div className="absolute right-0 top-3 bottom-3 w-px bg-gray-100 dark:bg-zinc-800 pointer-events-none" />
             )}
           </button>
         ))}
       </div>
       {/* Overall progress fill */}
-      <div className="h-[3px] bg-gray-100 relative overflow-hidden">
+      <div className="h-[3px] bg-gray-100 dark:bg-zinc-800 relative overflow-hidden">
         <motion.div
           className={`absolute inset-y-0 left-0 ${STAGES[active].progressBg} opacity-40`}
           animate={{ width: `${progress}%` }}
@@ -158,20 +158,20 @@ const SidePanel = () => {
         <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">
           Governance
         </span>
-        <h4 className="text-sm font-black text-gray-900 leading-tight">Operating Rules</h4>
-        <div className="h-0.5 w-6 bg-gray-900 rounded-full mt-1" />
+        <h4 className="text-sm font-black text-gray-900 dark:text-zinc-100 leading-tight">Operating Rules</h4>
+        <div className="h-0.5 w-6 bg-gray-900 dark:bg-zinc-100 rounded-full mt-1" />
       </div>
       <ul className="flex flex-col gap-3.5">
         {rules.map((rule, idx) => (
           <li key={idx} className="flex items-start gap-2.5 group">
-            <div className="w-4 h-4 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-gray-900 group-hover:border-gray-900 transition-colors">
-              <Zap className="w-2 h-2 text-gray-400 group-hover:text-white transition-colors" />
+            <div className="w-4 h-4 rounded-full bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-700 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-gray-900 group-hover:border-gray-900 dark:group-hover:bg-zinc-100 dark:group-hover:border-zinc-100 transition-colors">
+              <Zap className="w-2 h-2 text-gray-400 dark:text-zinc-600 group-hover:text-white dark:group-hover:text-zinc-900 transition-colors" />
             </div>
-            <span className="text-[12px] font-semibold text-gray-700 leading-snug">{rule}</span>
+            <span className="text-[12px] font-semibold text-gray-700 dark:text-zinc-300 leading-snug">{rule}</span>
           </li>
         ))}
       </ul>
-      <div className="pt-4 border-t border-gray-100 flex flex-col gap-2.5">
+      <div className="pt-4 border-t border-gray-100 dark:border-zinc-800 flex flex-col gap-2.5">
         <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
           Optional Tools
         </span>
@@ -197,8 +197,8 @@ const renderStage = (idx: number, fullWidth = false) => {
           fullWidth={fullWidth}
           note="AI supports clarity. Human owns scope."
           footer={
-            <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-blue-100/40">
-              <span className="text-[9px] text-blue-500 font-bold uppercase tracking-widest">
+            <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-blue-100/40 dark:border-blue-900/40">
+              <span className="text-[9px] text-blue-500 dark:text-blue-400 font-bold uppercase tracking-widest">
                 Primary Tools
               </span>
               <div className="flex flex-wrap gap-2">
@@ -226,8 +226,8 @@ const renderStage = (idx: number, fullWidth = false) => {
           delay={fullWidth ? 0 : 0.3}
           fullWidth={fullWidth}
           footer={
-            <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-purple-100/40">
-              <span className="text-[9px] text-purple-500 font-bold uppercase tracking-widest">
+            <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-purple-100/40 dark:border-purple-900/40">
+              <span className="text-[9px] text-purple-500 dark:text-purple-400 font-bold uppercase tracking-widest">
                 Primary Tools
               </span>
               <div className="flex flex-wrap gap-2">
@@ -257,8 +257,8 @@ const renderStage = (idx: number, fullWidth = false) => {
           fullWidth={fullWidth}
           note="Small PRs. Async clarity. Ship daily."
           footer={
-            <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-green-100/40">
-              <span className="text-[9px] text-green-600 font-bold uppercase tracking-widest">
+            <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-green-100/40 dark:border-green-900/40">
+              <span className="text-[9px] text-green-600 dark:text-green-400 font-bold uppercase tracking-widest">
                 Core Engine
               </span>
               <div className="flex flex-wrap gap-2">
@@ -273,7 +273,7 @@ const renderStage = (idx: number, fullWidth = false) => {
           }
         >
           <div className="flex flex-col gap-3 relative">
-            <div className="absolute left-[11px] top-6 bottom-6 w-0.5 border-l-2 border-dashed border-green-200" />
+            <div className="absolute left-[11px] top-6 bottom-6 w-0.5 border-l-2 border-dashed border-green-200 dark:border-green-800/50" />
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-full bg-green-500 border-4 border-white shadow-sm flex-shrink-0 z-10" />
               <Node label="Select GitHub Issue" icon={MessageCircleCode} className="flex-1" />
@@ -282,7 +282,7 @@ const renderStage = (idx: number, fullWidth = false) => {
               <Node label="Define Micro-Scope" icon={Target} className="flex-1" />
             </div>
             <div className="flex items-center gap-2 pl-4">
-              <Node label="Implement" icon={Code2} className="flex-1 bg-green-50/50 border-green-200" />
+              <Node label="Implement" icon={Code2} className="flex-1 bg-green-50/50 dark:bg-green-950/30 border-green-200 dark:border-green-800/50" />
             </div>
             <div className="flex items-center gap-2 pl-4">
               <Node label="AI Code Review" icon={Bot} className="flex-1" />
@@ -314,8 +314,8 @@ const renderStage = (idx: number, fullWidth = false) => {
           fullWidth={fullWidth}
           note="Production readiness > feature count."
           footer={
-            <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-amber-100/40">
-              <span className="text-[9px] text-amber-600 font-bold uppercase tracking-widest">
+            <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-amber-100/40 dark:border-amber-900/40">
+              <span className="text-[9px] text-amber-600 dark:text-amber-400 font-bold uppercase tracking-widest">
                 Refinement Stack
               </span>
               <div className="flex flex-wrap gap-2">
@@ -345,8 +345,8 @@ const renderStage = (idx: number, fullWidth = false) => {
           delay={fullWidth ? 0 : 0.9}
           fullWidth={fullWidth}
           footer={
-            <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-100">
-              <span className="text-[9px] text-gray-500 font-bold uppercase tracking-widest">
+            <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-100 dark:border-zinc-800">
+              <span className="text-[9px] text-gray-500 dark:text-zinc-400 font-bold uppercase tracking-widest">
                 Distribution Tools
               </span>
               <div className="flex flex-wrap gap-2">
@@ -432,8 +432,8 @@ const CTASection = () => (
 /* ─── Footer ──────────────────────────────────────────────────────── */
 const Footer = () => (
   <footer className="w-full pb-10 print:hidden">
-    <div className="border-t border-gray-100 pt-6 max-w-3xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p className="text-[11px] text-gray-400 tracking-wide">
+    <div className="border-t border-gray-100 dark:border-zinc-800 pt-6 max-w-3xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p className="text-[11px] text-gray-400 dark:text-zinc-500 tracking-wide">
         © {new Date().getFullYear()} Roman Mazuryk · SDLC Workflow Algorithm
       </p>
       <div className="flex items-center gap-5">
@@ -441,7 +441,7 @@ const Footer = () => (
           href="https://github.com/romahawk/ai-workflow"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 text-gray-400 hover:text-gray-900 transition-colors text-[12px] font-semibold"
+          className="flex items-center gap-1.5 text-gray-400 hover:text-gray-900 dark:text-zinc-500 dark:hover:text-zinc-100 transition-colors text-[12px] font-semibold"
         >
           <Github className="w-3.5 h-3.5" />
           Source
@@ -450,7 +450,7 @@ const Footer = () => (
           href="https://github.com/romahawk/ai-workflow/blob/main/docs/ROADMAP.md"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1 text-gray-400 hover:text-blue-600 transition-colors text-[12px] font-semibold"
+          className="flex items-center gap-1 text-gray-400 hover:text-blue-600 dark:text-zinc-500 dark:hover:text-blue-400 transition-colors text-[12px] font-semibold"
         >
           Roadmap
           <ArrowUpRight className="w-3 h-3" />
@@ -578,11 +578,11 @@ export default function Home() {
           </div>
 
           {/* Bottom navigation strip */}
-          <div className="flex-shrink-0 h-10 border-t border-gray-100 bg-white/90 backdrop-blur-sm flex items-center justify-between px-6">
+          <div className="flex-shrink-0 h-10 border-t border-gray-100 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-sm flex items-center justify-between px-6">
             <button
               onClick={() => goTo(Math.max(activeStage - 1, 0))}
               disabled={activeStage === 0}
-              className="flex items-center gap-1 text-[12px] font-semibold text-gray-400 hover:text-gray-900 disabled:opacity-25 disabled:cursor-not-allowed transition-colors"
+              className="flex items-center gap-1 text-[12px] font-semibold text-gray-400 hover:text-gray-900 dark:hover:text-zinc-100 disabled:opacity-25 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronLeft className="w-4 h-4" />
               <span className="hidden sm:block">Prev</span>
@@ -598,7 +598,7 @@ export default function Home() {
                   className={`rounded-full transition-all duration-200 ${
                     i === activeStage
                       ? `w-4 h-2 ${s.dotColor}`
-                      : "w-1.5 h-1.5 bg-gray-200 hover:bg-gray-400"
+                      : "w-1.5 h-1.5 bg-gray-200 dark:bg-zinc-700 hover:bg-gray-400 dark:hover:bg-zinc-500"
                   }`}
                 />
               ))}
@@ -607,7 +607,7 @@ export default function Home() {
             <button
               onClick={() => goTo(Math.min(activeStage + 1, STAGES.length - 1))}
               disabled={activeStage === STAGES.length - 1}
-              className="flex items-center gap-1 text-[12px] font-semibold text-gray-400 hover:text-gray-900 disabled:opacity-25 disabled:cursor-not-allowed transition-colors"
+              className="flex items-center gap-1 text-[12px] font-semibold text-gray-400 hover:text-gray-900 dark:hover:text-zinc-100 disabled:opacity-25 disabled:cursor-not-allowed transition-colors"
             >
               <span className="hidden sm:block">Next</span>
               <ChevronRight className="w-4 h-4" />

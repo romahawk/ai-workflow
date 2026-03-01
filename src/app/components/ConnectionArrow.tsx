@@ -17,7 +17,7 @@ export const ConnectionArrow: React.FC<ConnectionArrowProps> = ({ className = ""
     >
       <div className="relative group">
         <div className="absolute inset-0 bg-blue-100 rounded-full blur-md opacity-0 group-hover:opacity-40 transition-opacity" />
-        <ChevronRight className="w-8 h-8 text-gray-300 relative z-10" />
+        <ChevronRight className="w-8 h-8 text-gray-300 dark:text-zinc-600 relative z-10" />
       </div>
     </motion.div>
   );
