@@ -10,7 +10,6 @@ interface WorkflowSectionProps {
   note?: string;
   footer?: ReactNode;
   fullWidth?: boolean;
-  progress?: { done: number; total: number };
 }
 
 export const WorkflowSection: React.FC<WorkflowSectionProps> = ({
@@ -22,7 +21,6 @@ export const WorkflowSection: React.FC<WorkflowSectionProps> = ({
   note,
   footer,
   fullWidth = false,
-  progress,
 }) => {
   const bgColorMap: Record<string, string> = {
     blue:   "bg-blue-50/30   dark:bg-blue-950/25   border-blue-100   dark:border-blue-900/50",
@@ -40,8 +38,6 @@ export const WorkflowSection: React.FC<WorkflowSectionProps> = ({
     gray:   "text-gray-700   dark:text-zinc-300   bg-gray-100/50   dark:bg-zinc-800/60   border-gray-200   dark:border-zinc-700/60",
   };
 
-  const isComplete = progress && progress.done === progress.total && progress.total > 0;
-
   return (
     <motion.div
       initial={fullWidth ? false : { opacity: 0, x: -20 }}
@@ -51,26 +47,12 @@ export const WorkflowSection: React.FC<WorkflowSectionProps> = ({
         fullWidth ? "w-full min-w-0" : "min-w-[320px] max-w-[400px]"
       } ${bgColorMap[color] || bgColorMap.blue} ${className}`}
     >
-      {/* Title row: badge + progress counter */}
-      <div className="flex items-start justify-between gap-3 mb-6">
-        <div
-          className={`inline-block w-fit px-3 py-1 rounded-lg border text-xs font-bold uppercase tracking-widest ${
-            accentColorMap[color] || accentColorMap.blue
-          }`}
-        >
-          {title}
-        </div>
-        {progress && (
-          <span
-            className={`flex-shrink-0 text-[11px] font-black tabular-nums px-2 py-0.5 rounded-md transition-colors ${
-              isComplete
-                ? "text-green-600 dark:text-green-400 bg-green-100/60 dark:bg-green-950/50"
-                : "text-gray-400 dark:text-zinc-500 bg-gray-100/60 dark:bg-zinc-800/60"
-            }`}
-          >
-            {progress.done}/{progress.total}
-          </span>
-        )}
+      <div
+        className={`inline-block w-fit px-3 py-1 rounded-lg border mb-6 text-xs font-bold uppercase tracking-widest ${
+          accentColorMap[color] || accentColorMap.blue
+        }`}
+      >
+        {title}
       </div>
 
       <div className="flex flex-col gap-4 relative">
