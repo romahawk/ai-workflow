@@ -375,14 +375,6 @@ export default function Home() {
               Execution Layer
               <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
-            <button
-              onClick={toggle}
-              aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
-              className="p-2 rounded-lg transition-colors"
-              style={{ border: `1px solid ${borderMid}`, color: subtitleText }}
-            >
-              {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </button>
           </div>
         </motion.header>
 
