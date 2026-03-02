@@ -1,6 +1,5 @@
 import { motion } from "motion/react";
 import { Github, ArrowUpRight, ExternalLink, Sun, Moon } from "lucide-react";
-import { Github, ArrowUpRight, ExternalLink } from "lucide-react";
 import { phases } from "../data/phases";
 import { useTheme } from "../hooks/useTheme";
 
@@ -40,10 +39,6 @@ function PhaseColumn({
   const checkBorder = dark ? `${c}60` : `${c}50`;
   const checkDot = dark ? `${c}80` : `${c}70`;
 
-}: {
-  phase: (typeof phases)[number];
-  index: number;
-}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -68,34 +63,12 @@ function PhaseColumn({
         <h2
           className="text-[15px] leading-tight mb-1.5"
           style={{ fontFamily: "'DM Serif Display', serif", color: primaryText }}
-        style={{
-          borderColor: `${phase.color}30`,
-          background: `linear-gradient(160deg, ${phase.color}14 0%, transparent 70%)`,
-        }}
-      >
-        <div className="flex items-center gap-2 mb-3">
-          <span
-            className="font-mono text-[10px] px-2 py-0.5 rounded tracking-widest"
-            style={{ color: phase.color, background: `${phase.color}18` }}
-          >
-            0{phase.number}
-          </span>
-          <div
-            className="h-px flex-1 opacity-30"
-            style={{ background: phase.color }}
-          />
-        </div>
-        <h2
-          className="text-[15px] leading-tight mb-1"
-          style={{ fontFamily: "'DM Serif Display', serif", color: "#f0f0f0" }}
         >
           {phase.name}
         </h2>
         <p
           className="font-mono text-[10px] tracking-wide"
           style={{ color: c, opacity: dark ? 0.85 : 0.75 }}
-          className="font-mono text-[10px] tracking-wide opacity-60"
-          style={{ color: phase.color }}
         >
           {phase.tagline}
         </p>
@@ -112,11 +85,6 @@ function PhaseColumn({
             className="font-mono text-[9px] tracking-widest uppercase font-medium"
             style={{ color: labelColor }}
           >
-        style={{ borderColor: `${phase.color}30`, background: "#111318" }}
-      >
-        {/* Tools */}
-        <div className="flex flex-col gap-2">
-          <span className="font-mono text-[9px] tracking-widest text-zinc-500 uppercase">
             Tools
           </span>
           <div className="flex flex-col gap-1.5">
@@ -132,12 +100,6 @@ function PhaseColumn({
                   className="text-[10px] leading-relaxed"
                   style={{ color: purposeText }}
                 >
-                  className="font-mono text-[10px] whitespace-nowrap leading-relaxed"
-                  style={{ color: phase.color }}
-                >
-                  {tool.name}
-                </span>
-                <span className="text-[10px] text-zinc-600 leading-relaxed">
                   — {tool.purpose}
                 </span>
               </div>
@@ -185,53 +147,12 @@ function PhaseColumn({
           >
             Output artifacts
           </span>
-
-        <div className="h-px opacity-20" style={{ background: phase.color }} />
-
-        {/* Acceptance criteria */}
-        <div className="flex flex-col gap-2">
-          <span className="font-mono text-[9px] tracking-widest text-zinc-500 uppercase">
-            Done when
-          </span>
-          <ul className="flex flex-col gap-1.5">
-            {phase.acceptanceCriteria.map((ac) => (
-              <li key={ac.id} className="flex items-start gap-2">
-                <span
-                  className="mt-[3px] w-3 h-3 flex-shrink-0 rounded-sm border flex items-center justify-center"
-                  style={{ borderColor: `${phase.color}50` }}
-                >
-                  <span
-                    className="w-1 h-1 rounded-full"
-                    style={{ background: `${phase.color}60` }}
-                  />
-                </span>
-                <span className="text-[10px] text-zinc-400 leading-relaxed">
-                  {ac.text}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="h-px opacity-20" style={{ background: phase.color }} />
-
-        {/* Outputs */}
-        <div className="flex flex-col gap-2 mt-auto">
-          <span className="font-mono text-[9px] tracking-widest text-zinc-500 uppercase">
-            Output artifacts
-          </span>
           <div className="flex flex-wrap gap-1.5">
             {phase.outputs.map((out) => (
               <span
                 key={out}
                 className="font-mono text-[9px] px-2 py-0.5 rounded border font-medium"
                 style={{ color: tagColor, borderColor: tagBorder, background: tagBg }}
-                className="font-mono text-[9px] px-2 py-0.5 rounded border"
-                style={{
-                  color: `${phase.color}cc`,
-                  borderColor: `${phase.color}25`,
-                  background: `${phase.color}0a`,
-                }}
               >
                 {out}
               </span>
@@ -245,7 +166,6 @@ function PhaseColumn({
 
 /* ─── Phase connector ─────────────────────────────────────────────── */
 function PhaseConnector({ index, dark }: { index: number; dark: boolean }) {
-function PhaseConnector({ index }: { index: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, scaleX: 0 }}
@@ -258,8 +178,6 @@ function PhaseConnector({ index }: { index: number }) {
         style={{ color: dark ? "#3f3f52" : "#bbbbc8" }}
       >
         <div className="w-6 h-px" style={{ background: "currentColor" }} />
-      <div className="flex items-center text-zinc-700">
-        <div className="w-6 h-px bg-zinc-700" />
         <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor">
           <path d="M0 0L8 4L0 8V0Z" />
         </svg>
@@ -300,11 +218,6 @@ export default function Home() {
     <div
       className="min-h-screen selection:bg-violet-300/30"
       style={{ background: rootBg, fontFamily: "'Inter', sans-serif", color: primaryText, transition: "background 0.2s, color 0.2s" }}
-
-  return (
-    <div
-      className="min-h-screen text-zinc-100 selection:bg-zinc-700"
-      style={{ background: "#0d0f12", fontFamily: "'Inter', sans-serif" }}
     >
       <style>{`
         @media print {
@@ -326,14 +239,6 @@ export default function Home() {
 
       <div className="relative max-w-[1400px] mx-auto px-6 py-10 print:px-4 print:py-6">
 
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-      />
-
-      <div className="relative max-w-[1400px] mx-auto px-6 py-10 print:px-4 print:py-6">
-
         {/* ── Header ────────────────────────────────────────────── */}
         <motion.header
           initial={{ opacity: 0, y: -16 }}
@@ -348,11 +253,6 @@ export default function Home() {
               </span>
               <div className="h-px w-8" style={{ background: logoSep }} />
               <span className="font-mono text-[10px] tracking-widest uppercase" style={{ color: metaText }}>
-              <span className="font-mono text-[10px] text-zinc-500 tracking-widest uppercase">
-                v1.0
-              </span>
-              <div className="h-px w-8 bg-zinc-700" />
-              <span className="font-mono text-[10px] text-zinc-500 tracking-widest uppercase">
                 romahawk
               </span>
             </div>
@@ -363,25 +263,18 @@ export default function Home() {
               AI Production OS
             </h1>
             <p className="text-sm max-w-md leading-relaxed" style={{ color: subtitleText }}>
-              style={{ fontFamily: "'DM Serif Display', serif", color: "#f5f5f0" }}
-            >
-              AI Production OS
-            </h1>
-            <p className="text-sm text-zinc-500 max-w-md leading-relaxed">
               A solo engineer's framework for shipping production-grade software
               — from weekly strategy to daily build loop to proof-of-work.
             </p>
           </div>
 
           <div className="flex items-center gap-2 print-hide">
-          <div className="flex items-center gap-3 print-hide">
             <a
               href="https://github.com/romahawk/ai-workflow"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-[12px] font-mono transition-colors"
               style={{ border: `1px solid ${borderMid}`, color: subtitleText }}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-lg border border-zinc-800 text-zinc-400 hover:border-zinc-600 hover:text-zinc-200 transition-colors text-[12px] font-mono"
             >
               <Github className="w-3.5 h-3.5" />
               GitHub
@@ -393,41 +286,17 @@ export default function Home() {
                 background: dark ? "#f0f0f0" : "#111318",
                 color: dark ? "#111318" : "#f0f0f0",
               }}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-zinc-100 text-zinc-900 hover:bg-white transition-colors text-[12px] font-mono"
             >
               Execution Layer
               <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
             <button
               onClick={toggle}
-              aria-label="Toggle theme"
+              aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
               className="p-2 rounded-lg transition-colors"
               style={{ border: `1px solid ${borderMid}`, color: subtitleText }}
             >
-              {dark
-                ? <Sun className="w-4 h-4" />
-                : <Moon className="w-4 h-4" />}
-              title="Toggle theme"
-              aria-label="Toggle theme"
-              className="p-2 rounded-lg border border-zinc-800 text-zinc-500 hover:text-zinc-300 hover:border-zinc-600 transition-colors"
-            >
-              {dark ? (
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="5"/>
-                  <line x1="12" y1="1" x2="12" y2="3"/>
-                  <line x1="12" y1="21" x2="12" y2="23"/>
-                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                  <line x1="1" y1="12" x2="3" y2="12"/>
-                  <line x1="21" y1="12" x2="23" y2="12"/>
-                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-                </svg>
-              ) : (
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                </svg>
-              )}
+              {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
           </div>
         </motion.header>
@@ -438,8 +307,6 @@ export default function Home() {
             <div key={phase.id} className="contents">
               <PhaseColumn phase={phase} index={i} dark={dark} />
               {i < phases.length - 1 && <PhaseConnector index={i} dark={dark} />}
-              <PhaseColumn phase={phase} index={i} />
-              {i < phases.length - 1 && <PhaseConnector index={i} />}
             </div>
           ))}
         </div>
@@ -456,9 +323,6 @@ export default function Home() {
             className="font-mono text-[9px] tracking-widest uppercase font-medium block mb-3"
             style={{ color: metaText }}
           >
-          className="mt-10 print:mt-8 border-t border-zinc-800 pt-8"
-        >
-          <span className="font-mono text-[9px] tracking-widest text-zinc-600 uppercase block mb-3">
             Operating rules
           </span>
           <div className="flex flex-wrap gap-x-8 gap-y-2">
@@ -466,8 +330,6 @@ export default function Home() {
               <div key={rule} className="flex items-center gap-2">
                 <div className="w-1 h-1 rounded-full" style={{ background: ruleDot }} />
                 <span className="text-[11px]" style={{ color: ruleText }}>{rule}</span>
-                <div className="w-1 h-1 rounded-full bg-zinc-600" />
-                <span className="text-[11px] text-zinc-500">{rule}</span>
               </div>
             ))}
           </div>
@@ -482,9 +344,6 @@ export default function Home() {
           style={{ borderTop: `1px solid ${borderSubtle}` }}
         >
           <p className="font-mono text-[10px] tracking-wide" style={{ color: metaText }}>
-          className="mt-8 pt-6 border-t border-zinc-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 print-hide"
-        >
-          <p className="font-mono text-[10px] text-zinc-700 tracking-wide">
             © {new Date().getFullYear()} Roman Mazuryk · Built using itself
           </p>
           <div className="flex items-center gap-5">
@@ -494,7 +353,6 @@ export default function Home() {
               rel="noopener noreferrer"
               className="flex items-center gap-1 font-mono text-[10px] transition-colors"
               style={{ color: metaText }}
-              className="flex items-center gap-1 font-mono text-[10px] text-zinc-600 hover:text-zinc-400 transition-colors"
             >
               mazuryk.dev <ExternalLink className="w-2.5 h-2.5" />
             </a>
@@ -508,11 +366,6 @@ export default function Home() {
               Roadmap <ExternalLink className="w-2.5 h-2.5" />
             </a>
             <span className="font-mono text-[10px]" style={{ color: metaText }}>
-              className="flex items-center gap-1 font-mono text-[10px] text-zinc-600 hover:text-zinc-400 transition-colors"
-            >
-              Roadmap <ExternalLink className="w-2.5 h-2.5" />
-            </a>
-            <span className="font-mono text-[10px] text-zinc-700">
               React · Vite · Tailwind · shadcn/ui
             </span>
           </div>
