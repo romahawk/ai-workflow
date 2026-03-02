@@ -1,28 +1,34 @@
-# AI × Leverage Framework — Production-Grade Solo Workflow
+# AI Production OS v1
 
-> A single, print-ready visual that encodes a complete production-grade AI development operating system — deployable in one command, shareable as a URL.
+> A solo engineer's framework for shipping production-grade software — from weekly strategy to daily build loop to proof-of-work.
 
-![App screenshot](docs/screenshot.png)
+**[https://ai-workflow-woad.vercel.app](https://ai-workflow-woad.vercel.app)**
 
 ---
 
 ## What is this?
 
-A **visual reference tool** for solo founders and senior engineers operating in remote-first, AI-augmented environments. It renders the AI Production OS v1 framework as a 5-layer interactive diagram:
+A **two-layer personal development OS** for solo founders and senior engineers operating in AI-augmented, remote-first environments.
 
-1. **Strategy / Architect** — weekly outcome compression, scope constraints
-2. **Architecture & System Design** — data model, API, folder structure, edge cases
-3. **Daily Build Loop** — GitHub Issue → Micro-scope → Implement → Review → PR → Deploy
-4. **Production Hardening** — UX, error states, performance, observability
-5. **Professional Signal Layer** — clean git history, PR discipline, docs, demos
+### Layer 1 — Public Reference (`/`)
+A print-ready poster encoding the complete 5-phase OS. Shareable as a URL, printable at A3. Beautiful, dense, authoritative — like an engineering reference card.
 
-Includes a **Governance side panel** (6 operating rules) and **Print to PDF** with landscape/portrait toggle.
+### Layer 2 — Execution Layer (`/dashboard`, `/sprint`, `/projects`, `/daily`)
+A private, interactive control plane for running the OS across real projects:
+- **Sprint dashboard** — 3 active repos max (WIP enforced), parked and frozen visible
+- **Project detail** — per-phase checklist, editable sprint goal, manual changelog
+- **Sprint planning** — Monday flow: set statuses → goals → outcomes → lock sprint; Friday review
+- **Daily loop** — 10-step checklist, resets at midnight
+
+Access: append `?key=YOUR_KEY` or set `VITE_ACCESS_KEY` in `.env.local`.
 
 ---
 
 ## Live Demo
 
 **[https://ai-workflow-woad.vercel.app](https://ai-workflow-woad.vercel.app)**
+
+Execution layer: `https://ai-workflow-woad.vercel.app/dashboard?key=os2024`
 
 ---
 
