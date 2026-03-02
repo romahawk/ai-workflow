@@ -7,6 +7,21 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [0.3.0] — 2026-03-02
+
+### Added
+- **Layer 1 — AI Production OS poster** (`/`): full visual redesign. Dark-first (#0d0f12), DM Serif Display + JetBrains Mono typography. 5 phase columns derived from `phases.ts` — each with tools + purpose, acceptance criteria, output artifacts. Framer Motion staggered reveal. A3 print-ready.
+- **Layer 2 — Execution Layer** (private, access-key gated):
+  - `/dashboard` — Sprint control plane: 3-column board (active / parked / frozen), WIP limit enforcement (modal at 3 active), today's focus field persisted per repo, all-repo index
+  - `/projects/:id` — Per-project phase walkthrough: clickable phase strip, checkable acceptance criteria (localStorage), editable sprint goal, manual changelog
+  - `/sprint` — Weekly planning: 4-step flow (repo status → goals → outcomes → lock); Friday review with shipped/rolled-over toggle and copy-paste summary
+  - `/daily` — Daily 10-step checklist: sequential unlock, progress bar, midnight auto-reset, completion screen
+- **`PrivateGuard`**: client-side access control via PIN modal or `?key=` URL param; session persisted in `sessionStorage`
+- **`src/data/repos.ts`**: 10-repo registry — status, phase, sprint goal, stack, monetization, strategic role
+- **`src/data/phases.ts`**: 5 OS phases — tools, acceptance criteria, outputs, hex color per phase
+- **`src/vite-env.d.ts`**: `ImportMetaEnv` type for `VITE_ACCESS_KEY`
+- Google Fonts: DM Serif Display + JetBrains Mono loaded via `index.html`
+
 ## [Unreleased]
 
 ### Fixed
