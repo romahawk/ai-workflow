@@ -27,7 +27,7 @@ export const Navbar: React.FC<NavbarProps> = ({ orientation, setOrientation, dar
           Roman Mazuryk
         </span>
         <span className="text-gray-300 dark:text-gray-600 hidden sm:block">·</span>
-        <span className="text-[12px] text-gray-400 dark:text-gray-500 hidden md:block truncate">SDLC Workflow Algorithm</span>
+        <span className="text-[12px] text-gray-400 dark:text-gray-400 hidden md:block truncate">SDLC Workflow Algorithm</span>
       </div>
 
       {/* Controls */}
@@ -37,7 +37,7 @@ export const Navbar: React.FC<NavbarProps> = ({ orientation, setOrientation, dar
           href="https://github.com/romahawk/ai-workflow"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 text-gray-400 hover:text-gray-900 dark:text-gray-500 dark:hover:text-white transition-colors"
+          className="flex items-center gap-1.5 text-gray-400 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
           aria-label="View source on GitHub"
         >
           <Github className="w-4 h-4" />
@@ -50,7 +50,7 @@ export const Navbar: React.FC<NavbarProps> = ({ orientation, setOrientation, dar
         <button
           onClick={onToggle}
           aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
-          className="flex items-center justify-center w-7 h-7 rounded-md text-gray-400 hover:text-gray-900 dark:text-gray-500 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+          className="flex items-center justify-center w-7 h-7 rounded-md text-gray-400 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
         >
           {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
         </button>
