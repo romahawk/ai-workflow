@@ -25,6 +25,8 @@ Versioning: [Semantic Versioning](https://semver.org/)
 ## [Unreleased]
 
 ### Fixed
+- **Theme toggle**: OS-level preference changes now update the theme in real time when the user has not set an explicit override (adds `matchMedia` change listener to `useTheme`)
+- **Dark-mode contrast**: Navbar interactive text (`dark:text-gray-500` → `dark:text-gray-400`) now meets WCAG AA contrast ratio on the `dark:bg-gray-900` surface
 - Moved `react` and `react-dom` from `peerDependencies` to `dependencies` (correct for app, not library)
 - Removed unused MUI (`@mui/material`, `@mui/icons-material`, `@emotion/react`, `@emotion/styled`) — ~300KB bundle reduction
 - Added `preview` and `lint` scripts to `package.json`
