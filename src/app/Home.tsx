@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Target,
@@ -15,7 +15,6 @@ import {
   Rocket,
   SearchCode,
   CheckCircle2,
-  Check,
   MousePointer2,
   MessageCircleCode,
   Eye,
@@ -36,9 +35,6 @@ import { Node, ToolNode } from "./components/Node";
 import { ConnectionArrow } from "./components/ConnectionArrow";
 import { Navbar } from "./components/Navbar";
 import { useTheme } from "../hooks/useTheme";
-import { useChecklist } from "../hooks/useChecklist";
-import { WORKFLOW } from "../data/workflow";
-import type { CheckedState } from "../hooks/useChecklist";
 
 /* ─── Stage metadata ──────────────────────────────────────────────── */
 const STAGES = [
@@ -93,11 +89,9 @@ const STAGES = [
 const StageNav = ({
   active,
   setActive,
-  stageCompletion,
 }: {
   active: number;
   setActive: (n: number) => void;
-  stageCompletion: boolean[];
 }) => {
   const progress = ((active + 1) / STAGES.length) * 100;
   return (
@@ -121,9 +115,6 @@ const StageNav = ({
               {i + 1}
             </span>
             <span className="truncate hidden sm:block">{s.shortLabel}</span>
-            {stageCompletion[i] && (
-              <Check className="w-3 h-3 text-green-500 dark:text-green-400 flex-shrink-0" />
-            )}
             {/* Active tab underline */}
             {active === i && (
               <motion.div
@@ -195,25 +186,7 @@ const SidePanel = () => {
 };
 
 /* ─── Stage content ───────────────────────────────────────────────── */
-const renderStage = (
-  idx: number,
-  fullWidth = false,
-  checkable = false,
-  checked: CheckedState = {},
-  toggle: (id: string) => void = () => {},
-) => {
-  // Helper: spread checkable props onto a Node (no-op in print view)
-  const np = (nodeId: string) =>
-    checkable
-      ? { checkable: true, checked: !!checked[nodeId], onToggle: () => toggle(nodeId) }
-      : {};
-
-  // Progress for WorkflowSection header counter
-  const stageData = WORKFLOW[idx];
-  const stageProg = checkable && stageData
-    ? { progress: { done: stageData.nodes.filter((n) => !!checked[n.id]).length, total: stageData.nodes.length } }
-    : {};
-
+const renderStage = (idx: number, fullWidth = false) => {
   switch (idx) {
     case 0:
       return (
@@ -223,7 +196,6 @@ const renderStage = (
           delay={fullWidth ? 0 : 0.1}
           fullWidth={fullWidth}
           note="AI supports clarity. Human owns scope."
-          {...stageProg}
           footer={
             <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-blue-100/40 dark:border-blue-900/40">
               <span className="text-[9px] text-blue-500 dark:text-blue-400 font-bold uppercase tracking-widest">
@@ -238,11 +210,11 @@ const renderStage = (
             </div>
           }
         >
-          <Node label="Define 1–3 Weekly Outcomes"         icon={Target}      {...np('define-weekly-outcomes')} />
-          <Node label="Scope Constraints (Max 3 Projects)" icon={Briefcase}   {...np('scope-constraints')} />
-          <Node label="Write Acceptance Criteria"          icon={CheckCircle2} {...np('write-acceptance-criteria')} />
-          <Node label="Update Roadmap"                     icon={Layers}      {...np('update-roadmap')} />
-          <Node label="Update Decision Log"                icon={FileCode2}   {...np('update-decision-log')} />
+          <Node label="Define 1–3 Weekly Outcomes" icon={Target} />
+          <Node label="Scope Constraints (Max 3 Projects)" icon={Briefcase} />
+          <Node label="Write Acceptance Criteria" icon={CheckCircle2} />
+          <Node label="Update Roadmap" icon={Layers} />
+          <Node label="Update Decision Log" icon={FileCode2} />
         </WorkflowSection>
       );
 
@@ -253,7 +225,6 @@ const renderStage = (
           color="purple"
           delay={fullWidth ? 0 : 0.3}
           fullWidth={fullWidth}
-          {...stageProg}
           footer={
             <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-purple-100/40 dark:border-purple-900/40">
               <span className="text-[9px] text-purple-500 dark:text-purple-400 font-bold uppercase tracking-widest">
@@ -268,12 +239,12 @@ const renderStage = (
             </div>
           }
         >
-          <Node label="Data Model Definition"    icon={Layers}     {...np('data-model')} />
-          <Node label="API Schema"               icon={Terminal}   {...np('api-schema')} />
-          <Node label="Folder Structure"         icon={Layout}     {...np('folder-structure')} />
-          <Node label="State Management Design"  icon={Layers}     {...np('state-management')} />
-          <Node label="Edge Case Review"         icon={SearchCode} {...np('edge-cases')} />
-          <Node label="Scalability Considerations" icon={Zap}      {...np('scalability')} />
+          <Node label="Data Model Definition" icon={Layers} />
+          <Node label="API Schema" icon={Terminal} />
+          <Node label="Folder Structure" icon={Layout} />
+          <Node label="State Management Design" icon={Layers} />
+          <Node label="Edge Case Review" icon={SearchCode} />
+          <Node label="Scalability Considerations" icon={Zap} />
         </WorkflowSection>
       );
 
@@ -285,7 +256,6 @@ const renderStage = (
           delay={fullWidth ? 0 : 0.5}
           fullWidth={fullWidth}
           note="Small PRs. Async clarity. Ship daily."
-          {...stageProg}
           footer={
             <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-green-100/40 dark:border-green-900/40">
               <span className="text-[9px] text-green-600 dark:text-green-400 font-bold uppercase tracking-widest">
@@ -306,22 +276,22 @@ const renderStage = (
             <div className="absolute left-[11px] top-6 bottom-6 w-0.5 border-l-2 border-dashed border-green-200 dark:border-green-800/50" />
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-full bg-green-500 border-4 border-white shadow-sm flex-shrink-0 z-10" />
-              <Node label="Select GitHub Issue" icon={MessageCircleCode} className="flex-1" {...np('select-issue')} />
+              <Node label="Select GitHub Issue" icon={MessageCircleCode} className="flex-1" />
             </div>
             <div className="flex items-center gap-2 pl-4">
-              <Node label="Define Micro-Scope" icon={Target} className="flex-1" {...np('define-scope')} />
+              <Node label="Define Micro-Scope" icon={Target} className="flex-1" />
             </div>
             <div className="flex items-center gap-2 pl-4">
-              <Node label="Implement" icon={Code2} className="flex-1 bg-green-50/50 dark:bg-green-950/30 border-green-200 dark:border-green-800/50" {...np('implement')} />
+              <Node label="Implement" icon={Code2} className="flex-1 bg-green-50/50 dark:bg-green-950/30 border-green-200 dark:border-green-800/50" />
             </div>
             <div className="flex items-center gap-2 pl-4">
-              <Node label="AI Code Review" icon={Bot} className="flex-1" {...np('ai-review')} />
+              <Node label="AI Code Review" icon={Bot} className="flex-1" />
             </div>
             <div className="flex items-center gap-2 pl-4">
-              <Node label="Manual Reasoning Pass" icon={MousePointer2} className="flex-1" {...np('manual-reasoning')} />
+              <Node label="Manual Reasoning Pass" icon={MousePointer2} className="flex-1" />
             </div>
             <div className="flex items-center gap-2 pl-4">
-              <Node label="PR + Merge" icon={GitBranch} className="flex-1" {...np('pr-merge')} />
+              <Node label="PR + Merge" icon={GitBranch} className="flex-1" />
             </div>
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-full bg-green-600 border-4 border-white shadow-md flex-shrink-0 z-10 animate-pulse" />
@@ -329,7 +299,6 @@ const renderStage = (
                 label="Deploy"
                 icon={Rocket}
                 className="flex-1 bg-green-600 text-white border-none shadow-lg"
-                {...np('deploy')}
               />
             </div>
           </div>
@@ -344,7 +313,6 @@ const renderStage = (
           delay={fullWidth ? 0 : 0.7}
           fullWidth={fullWidth}
           note="Production readiness > feature count."
-          {...stageProg}
           footer={
             <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-amber-100/40 dark:border-amber-900/40">
               <span className="text-[9px] text-amber-600 dark:text-amber-400 font-bold uppercase tracking-widest">
@@ -360,11 +328,11 @@ const renderStage = (
             </div>
           }
         >
-          <Node label="UX Review"                icon={Eye}       {...np('ux-review')} />
-          <Node label="Loading & Error States"  icon={Activity}  {...np('loading-error-states')} />
-          <Node label="Performance Optimization" icon={Zap}      {...np('performance')} />
-          <Node label="Error Monitoring"         icon={ShieldCheck} {...np('error-monitoring')} />
-          <Node label="Analytics Integration"    icon={BarChart3}   {...np('analytics-integration')} />
+          <Node label="UX Review" icon={Eye} />
+          <Node label="Loading & Error States" icon={Activity} />
+          <Node label="Performance Optimization" icon={Zap} />
+          <Node label="Error Monitoring" icon={ShieldCheck} />
+          <Node label="Analytics Integration" icon={BarChart3} />
         </WorkflowSection>
       );
 
@@ -376,7 +344,6 @@ const renderStage = (
           color="gray"
           delay={fullWidth ? 0 : 0.9}
           fullWidth={fullWidth}
-          {...stageProg}
           footer={
             <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-100 dark:border-zinc-800">
               <span className="text-[9px] text-gray-500 dark:text-zinc-400 font-bold uppercase tracking-widest">
@@ -392,12 +359,12 @@ const renderStage = (
             </div>
           }
         >
-          <Node label="Clean Git History"     icon={GitBranch}       {...np('clean-git-history')} />
-          <Node label="PR Discipline"          icon={MessageCircleCode} {...np('pr-discipline')} />
-          <Node label="Architecture Docs"      icon={FileCode2}       {...np('architecture-docs')} />
-          <Node label="Public Deployment"      icon={MonitorCheck}    {...np('public-deployment')} />
-          <Node label="Demo Recording"         icon={Video}           {...np('demo-recording')} />
-          <Node label="Case Study Extraction"  icon={FileText}        {...np('case-study')} />
+          <Node label="Clean Git History" icon={GitBranch} />
+          <Node label="PR Discipline" icon={MessageCircleCode} />
+          <Node label="Architecture Docs" icon={FileCode2} />
+          <Node label="Public Deployment" icon={MonitorCheck} />
+          <Node label="Demo Recording" icon={Video} />
+          <Node label="Case Study Extraction" icon={FileText} />
 
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -496,17 +463,8 @@ const Footer = () => (
 /* ─── Main ────────────────────────────────────────────────────────── */
 export default function Home() {
   const { dark, toggle } = useTheme();
-  const { checked, toggle: toggleNode, reset, projectId, generateContext } = useChecklist();
   const [orientation, setOrientation] = useState<"landscape" | "portrait">("landscape");
   const [activeStage, setActiveStage] = useState(0);
-
-  const stageCompletion = WORKFLOW.map((stage) =>
-    stage.nodes.length > 0 && stage.nodes.every((n) => !!checked[n.id]),
-  );
-
-  const handleCopyContext = useCallback(() => {
-    navigator.clipboard.writeText(generateContext(activeStage)).catch(() => {});
-  }, [generateContext, activeStage]);
   const [direction, setDirection] = useState<1 | -1>(1);
   const goTo = (next: number) => {
     setDirection(next > activeStage ? 1 : -1);
@@ -580,16 +538,8 @@ export default function Home() {
       <div className="fixed inset-0 pointer-events-none opacity-[0.018] bg-[url('https://www.transparenttextures.com/patterns/graphy.png')] bg-repeat print:hidden" />
 
       {/* ── Fixed chrome ─────────────────────────────────────────── */}
-      <Navbar
-        orientation={orientation}
-        setOrientation={setOrientation}
-        dark={dark}
-        onToggle={toggle}
-        projectId={projectId}
-        onCopyContext={handleCopyContext}
-        onReset={reset}
-      />
-      <StageNav active={activeStage} setActive={goTo} stageCompletion={stageCompletion} />
+      <Navbar orientation={orientation} setOrientation={setOrientation} dark={dark} onToggle={toggle} />
+      <StageNav active={activeStage} setActive={goTo} />
 
       {/* ── Screen view: single-stage viewport ───────────────────── */}
       <div className="print:hidden">
@@ -620,7 +570,7 @@ export default function Home() {
                   transition={{ duration: 0.2, ease: "easeInOut" }}
                   className="p-6 lg:p-10 max-w-2xl mx-auto"
                 >
-                  {renderStage(activeStage, true, true, checked, toggleNode)}
+                  {renderStage(activeStage, true)}
                 </motion.div>
               </AnimatePresence>
             </div>
