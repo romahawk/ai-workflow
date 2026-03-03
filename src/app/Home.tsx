@@ -26,61 +26,39 @@ const neon = (raw: string) => NEON[raw] ?? raw;
 function BackgroundScene() {
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none" aria-hidden>
-      {/* Blue blob — top left */}
       <motion.div
         animate={{ x: [0, 40, 0], y: [0, -24, 0], scale: [1, 1.08, 1] }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
         style={{
-          position: "absolute",
-          top: "-25%",
-          left: "-20%",
-          width: "72%",
-          height: "72%",
-          background:
-            "radial-gradient(ellipse at center, rgba(99,102,241,0.18) 0%, rgba(59,130,246,0.10) 40%, transparent 70%)",
+          position: "absolute", top: "-25%", left: "-20%", width: "72%", height: "72%",
+          background: "radial-gradient(ellipse at center, rgba(99,102,241,0.18) 0%, rgba(59,130,246,0.10) 40%, transparent 70%)",
           filter: "blur(72px)",
         }}
       />
-      {/* Purple blob — top right */}
       <motion.div
         animate={{ x: [0, -30, 0], y: [0, 28, 0], scale: [1, 1.06, 1] }}
         transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
         style={{
-          position: "absolute",
-          top: "5%",
-          right: "-22%",
-          width: "62%",
-          height: "62%",
-          background:
-            "radial-gradient(ellipse at center, rgba(168,85,247,0.16) 0%, rgba(139,92,246,0.08) 45%, transparent 70%)",
+          position: "absolute", top: "5%", right: "-22%", width: "62%", height: "62%",
+          background: "radial-gradient(ellipse at center, rgba(168,85,247,0.16) 0%, rgba(139,92,246,0.08) 45%, transparent 70%)",
           filter: "blur(80px)",
         }}
       />
-      {/* Emerald blob — bottom center */}
       <motion.div
         animate={{ x: [0, 20, 0], y: [0, -32, 0], scale: [1, 1.1, 1] }}
         transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
         style={{
-          position: "absolute",
-          bottom: "-20%",
-          left: "25%",
-          width: "55%",
-          height: "55%",
-          background:
-            "radial-gradient(ellipse at center, rgba(52,211,153,0.13) 0%, rgba(16,185,129,0.06) 45%, transparent 70%)",
+          position: "absolute", bottom: "-20%", left: "25%", width: "55%", height: "55%",
+          background: "radial-gradient(ellipse at center, rgba(52,211,153,0.13) 0%, rgba(16,185,129,0.06) 45%, transparent 70%)",
           filter: "blur(90px)",
         }}
       />
-      {/* Dot grid */}
       <div
         style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage:
-            "radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)",
+          position: "absolute", inset: 0,
+          backgroundImage: "radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)",
           backgroundSize: "32px 32px",
-          maskImage:
-            "radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%)",
+          maskImage: "radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%)",
         }}
       />
     </div>
@@ -104,13 +82,7 @@ function Divider() {
 }
 
 /* ─── Phase card ──────────────────────────────────────────────────── */
-function PhaseCard({
-  phase,
-  index,
-}: {
-  phase: (typeof phases)[number];
-  index: number;
-}) {
+function PhaseCard({ phase, index }: { phase: (typeof phases)[number]; index: number }) {
   const c = neon(phase.color);
 
   return (
@@ -118,7 +90,7 @@ function PhaseCard({
       initial={{ opacity: 0, y: 36 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.65, delay: index * 0.11, ease: [0.22, 1, 0.36, 1] }}
-      className="flex flex-col flex-1 min-w-[185px] max-w-[250px] rounded-2xl overflow-hidden"
+      className="flex flex-col flex-1 min-w-[185px] max-w-[250px] min-h-0 rounded-2xl overflow-hidden"
       style={{
         background: SURFACE,
         backdropFilter: "blur(24px)",
@@ -128,65 +100,38 @@ function PhaseCard({
       }}
     >
       {/* Colored top stripe */}
-      <div
-        style={{
-          height: "2px",
-          background: `linear-gradient(90deg, ${c} 0%, ${c}60 50%, transparent 100%)`,
-        }}
-      />
+      <div style={{ height: "2px", flexShrink: 0, background: `linear-gradient(90deg, ${c} 0%, ${c}60 50%, transparent 100%)` }} />
 
       {/* Header */}
-      <div className="px-5 pt-5 pb-4">
-        {/* Badge row */}
-        <div className="flex items-center gap-3 mb-4">
+      <div className="px-4 pt-4 pb-3" style={{ flexShrink: 0 }}>
+        <div className="flex items-center gap-3 mb-3">
           <div
-            className="flex items-center justify-center w-8 h-8 rounded-lg text-[11px] font-bold"
-            style={{
-              fontFamily: MONO,
-              color: c,
-              background: `${c}12`,
-              border: `1px solid ${c}28`,
-              boxShadow: `0 0 18px ${c}22, inset 0 1px 0 ${c}15`,
-            }}
+            className="flex items-center justify-center w-7 h-7 rounded-lg text-[10px] font-bold"
+            style={{ fontFamily: MONO, color: c, background: `${c}12`, border: `1px solid ${c}28`, boxShadow: `0 0 18px ${c}22, inset 0 1px 0 ${c}15` }}
           >
             0{phase.number}
           </div>
-          <div
-            className="h-px flex-1"
-            style={{
-              background: `linear-gradient(90deg, ${c}50 0%, transparent 100%)`,
-            }}
-          />
+          <div className="h-px flex-1" style={{ background: `linear-gradient(90deg, ${c}50 0%, transparent 100%)` }} />
         </div>
-
-        <h2
-          className="text-[14px] font-semibold leading-snug mb-2 tracking-tight"
-          style={{ color: TEXT_PRIMARY }}
-        >
+        <h2 className="text-[13px] font-semibold leading-snug mb-1 tracking-tight" style={{ color: TEXT_PRIMARY }}>
           {phase.name}
         </h2>
-        <p
-          className="text-[10px] tracking-wider"
-          style={{ fontFamily: MONO, color: c, opacity: 0.75 }}
-        >
+        <p className="text-[10px] tracking-wider" style={{ fontFamily: MONO, color: c, opacity: 0.75 }}>
           {phase.tagline}
         </p>
       </div>
 
-      <div className="mx-5" style={{ height: "1px", background: BORDER_INNER }} />
+      <div className="mx-4" style={{ height: "1px", background: BORDER_INNER, flexShrink: 0 }} />
 
       {/* Body */}
-      <div className="flex flex-col flex-1 px-5 py-4 gap-5">
+      <div className="flex flex-col flex-1 px-4 py-3 gap-3 min-h-0 overflow-hidden">
         {/* Tools */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1.5">
           <Label>Tools</Label>
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-1">
             {phase.tools.map((tool) => (
               <div key={tool.name} className="flex items-baseline gap-2">
-                <span
-                  className="text-[10px] font-semibold whitespace-nowrap leading-relaxed"
-                  style={{ fontFamily: MONO, color: c }}
-                >
+                <span className="text-[10px] font-semibold whitespace-nowrap leading-relaxed" style={{ fontFamily: MONO, color: c }}>
                   {tool.name}
                 </span>
                 <span className="text-[10px] leading-relaxed" style={{ color: TEXT_SECONDARY }}>
@@ -200,19 +145,13 @@ function PhaseCard({
         <Divider />
 
         {/* Acceptance criteria */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1.5">
           <Label>Done when</Label>
-          <ul className="flex flex-col gap-1.5">
+          <ul className="flex flex-col gap-1">
             {phase.acceptanceCriteria.map((ac) => (
               <li key={ac.id} className="flex items-start gap-2">
-                <span
-                  className="mt-[4px] w-3 h-3 flex-shrink-0 rounded border flex items-center justify-center"
-                  style={{ borderColor: `${c}35` }}
-                >
-                  <span
-                    className="w-1 h-1 rounded-full"
-                    style={{ background: `${c}55` }}
-                  />
+                <span className="mt-[3px] w-3 h-3 flex-shrink-0 rounded border flex items-center justify-center" style={{ borderColor: `${c}35` }}>
+                  <span className="w-1 h-1 rounded-full" style={{ background: `${c}55` }} />
                 </span>
                 <span className="text-[10px] leading-relaxed" style={{ color: TEXT_SECONDARY }}>
                   {ac.text}
@@ -225,20 +164,14 @@ function PhaseCard({
         <Divider />
 
         {/* Outputs */}
-        <div className="flex flex-col gap-2 mt-auto">
+        <div className="flex flex-col gap-1.5 mt-auto">
           <Label>Output artifacts</Label>
           <div className="flex flex-wrap gap-1.5">
             {phase.outputs.map((out) => (
               <span
                 key={out}
                 className="text-[9px] font-medium px-2 py-0.5 rounded"
-                style={{
-                  fontFamily: MONO,
-                  color: c,
-                  background: `${c}0e`,
-                  border: `1px solid ${c}22`,
-                  boxShadow: `0 0 10px ${c}0a`,
-                }}
+                style={{ fontFamily: MONO, color: c, background: `${c}0e`, border: `1px solid ${c}22`, boxShadow: `0 0 10px ${c}0a` }}
               >
                 {out}
               </span>
@@ -283,94 +216,59 @@ const RULES = [
 export default function Home() {
   return (
     <div
-      className="min-h-screen selection:bg-violet-400/20"
+      className="h-screen overflow-hidden selection:bg-violet-400/20"
       style={{ background: BG, fontFamily: "'Inter', sans-serif", color: TEXT_PRIMARY }}
     >
       <BackgroundScene />
 
-      <div className="relative max-w-[1400px] mx-auto px-6 py-14">
+      <div className="relative h-full max-w-[1400px] mx-auto px-6 py-5 flex flex-col">
 
         {/* ── Header ──────────────────────────────────────────────── */}
         <motion.header
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-8 mb-16"
+          className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 flex-shrink-0"
         >
-          <div className="flex flex-col gap-4">
-            {/* Version badge */}
+          <div className="flex flex-col gap-2">
             <div>
               <span
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-semibold tracking-wider"
-                style={{
-                  fontFamily: MONO,
-                  color: "#60a5fa",
-                  background: "rgba(59,130,246,0.1)",
-                  border: "1px solid rgba(59,130,246,0.22)",
-                  boxShadow: "0 0 20px rgba(59,130,246,0.12)",
-                }}
+                className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-wider"
+                style={{ fontFamily: MONO, color: "#60a5fa", background: "rgba(59,130,246,0.1)", border: "1px solid rgba(59,130,246,0.22)", boxShadow: "0 0 20px rgba(59,130,246,0.12)" }}
               >
-                <span
-                  className="w-1.5 h-1.5 rounded-full"
-                  style={{ background: "#3b82f6", boxShadow: "0 0 6px #3b82f6" }}
-                />
+                <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#3b82f6", boxShadow: "0 0 6px #3b82f6" }} />
                 v1.0 · romahawk
               </span>
             </div>
-
-            {/* Title */}
             <div>
               <h1
-                className="text-4xl sm:text-5xl font-bold leading-tight tracking-tight"
-                style={{
-                  background:
-                    "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 35%, #94a3b8 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
+                className="text-3xl sm:text-4xl font-bold leading-tight tracking-tight"
+                style={{ background: "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 35%, #94a3b8 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}
               >
                 AI Production OS
               </h1>
-              <p
-                className="mt-3 text-sm leading-relaxed max-w-md"
-                style={{ color: TEXT_SECONDARY }}
-              >
+              <p className="mt-1 text-xs leading-relaxed max-w-md" style={{ color: TEXT_SECONDARY }}>
                 A solo engineer's framework for shipping production-grade software —
                 from weekly strategy to daily build loop to proof-of-work.
               </p>
             </div>
           </div>
 
-          {/* CTAs */}
           <div className="flex items-center gap-2.5">
             <a
               href="https://github.com/romahawk/ai-workflow"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12px] font-medium transition-opacity hover:opacity-80"
-              style={{
-                fontFamily: MONO,
-                background: SURFACE,
-                backdropFilter: "blur(12px)",
-                border: `1px solid ${BORDER}`,
-                color: TEXT_SECONDARY,
-              }}
+              className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-[12px] font-medium transition-opacity hover:opacity-80"
+              style={{ fontFamily: MONO, background: SURFACE, backdropFilter: "blur(12px)", border: `1px solid ${BORDER}`, color: TEXT_SECONDARY }}
             >
               <Github className="w-3.5 h-3.5" />
               GitHub
             </a>
             <a
               href="/dashboard"
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12px] font-semibold transition-opacity hover:opacity-90"
-              style={{
-                fontFamily: MONO,
-                background:
-                  "linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a21caf 100%)",
-                color: "#fff",
-                boxShadow:
-                  "0 0 28px rgba(124,58,237,0.4), 0 4px 20px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15)",
-              }}
+              className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-[12px] font-semibold transition-opacity hover:opacity-90"
+              style={{ fontFamily: MONO, background: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a21caf 100%)", color: "#fff", boxShadow: "0 0 28px rgba(124,58,237,0.4), 0 4px 20px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15)" }}
             >
               Execution Layer
               <ArrowUpRight className="w-3.5 h-3.5" />
@@ -379,7 +277,7 @@ export default function Home() {
         </motion.header>
 
         {/* ── Phase cards ─────────────────────────────────────────── */}
-        <div className="flex flex-col lg:flex-row gap-2.5 items-stretch">
+        <div className="flex flex-col lg:flex-row gap-2.5 items-stretch flex-1 min-h-0">
           {phases.map((phase, i) => (
             <div key={phase.id} className="contents">
               <PhaseCard phase={phase} index={i} />
@@ -393,20 +291,15 @@ export default function Home() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.85 }}
-          className="mt-16 pt-8"
+          className="mt-4 pt-3 flex-shrink-0"
           style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
         >
           <Label>Operating rules</Label>
-          <div className="flex flex-wrap gap-x-8 gap-y-2.5 mt-3">
+          <div className="flex flex-wrap gap-x-6 gap-y-1.5 mt-2">
             {RULES.map((rule) => (
-              <div key={rule} className="flex items-center gap-2.5">
-                <div
-                  className="w-1 h-1 rounded-full"
-                  style={{ background: "#7c3aed", boxShadow: "0 0 6px #7c3aed80" }}
-                />
-                <span className="text-[11px]" style={{ color: "#334155" }}>
-                  {rule}
-                </span>
+              <div key={rule} className="flex items-center gap-2">
+                <div className="w-1 h-1 rounded-full flex-shrink-0" style={{ background: "#7c3aed", boxShadow: "0 0 6px #7c3aed80" }} />
+                <span className="text-[10px]" style={{ color: "#334155" }}>{rule}</span>
               </div>
             ))}
           </div>
@@ -417,22 +310,16 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 1.0 }}
-          className="mt-10 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+          className="mt-3 pt-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 flex-shrink-0"
           style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}
         >
-          <p
-            className="text-[10px] tracking-wide"
-            style={{ fontFamily: MONO, color: "#0f172a" }}
-          >
+          <p className="text-[10px] tracking-wide" style={{ fontFamily: MONO, color: "#0f172a" }}>
             © {new Date().getFullYear()} Roman Mazuryk · Built using itself
           </p>
           <div className="flex items-center gap-5">
             {[
               { label: "mazuryk.dev", href: "https://mazuryk.dev" },
-              {
-                label: "Roadmap",
-                href: "https://github.com/romahawk/ai-workflow/blob/main/docs/ROADMAP.md",
-              },
+              { label: "Roadmap", href: "https://github.com/romahawk/ai-workflow/blob/main/docs/ROADMAP.md" },
             ].map(({ label, href }) => (
               <a
                 key={label}
