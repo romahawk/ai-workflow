@@ -10,15 +10,9 @@ import {
   ChevronUp,
   Home,
 } from "lucide-react";
-import {
-  repos,
-  activeRepos,
-  parkedRepos,
-  frozenRepos,
-  ACTIVE_LIMIT,
-  type Repo,
-} from "../../data/repos";
+import { useRepos } from "../../hooks/useRepos";
 import { phases } from "../../data/phases";
+import { ACTIVE_LIMIT, type Repo } from "../../data/repos";
 
 /* ─── Helpers ─────────────────────────────────────────────────────── */
 function getWeekRange() {
@@ -125,17 +119,14 @@ function WIPModal({ onClose }: { onClose: () => void }) {
 }
 
 /* ─── Active repo card ────────────────────────────────────────────── */
-function ActiveCard({ repo }: { repo: Repo }) {
-  const storageKey = `os_focus_${repo.id}`;
-  const [focus, setFocus] = useState(
-    () => localStorage.getItem(storageKey) ?? ""
-  );
+function ActiveCard({
+  repo,
+  setFocusToday,
+}: {
+  repo: Repo;
+  setFocusToday: (id: string, val: string) => Promise<void>;
+}) {
   const phase = phases.find((p) => p.id === repo.phase);
-
-  function saveFocus(val: string) {
-    setFocus(val);
-    localStorage.setItem(storageKey, val);
-  }
 
   return (
     <motion.div
@@ -221,8 +212,8 @@ function ActiveCard({ repo }: { repo: Repo }) {
         </span>
         <input
           type="text"
-          value={focus}
-          onChange={(e) => saveFocus(e.target.value)}
+          defaultValue={repo.focusToday ?? ""}
+          onBlur={(e) => setFocusToday(repo.id, e.target.value)}
           placeholder="What are you shipping today?"
           className="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-[11px] text-zinc-300 placeholder-zinc-700 outline-none focus:border-zinc-600 transition-colors font-mono"
         />
@@ -252,10 +243,10 @@ function ActiveCard({ repo }: { repo: Repo }) {
 /* ─── Parked card ─────────────────────────────────────────────────── */
 function ParkedCard({
   repo,
-  onUnpark,
+  onActivate,
 }: {
   repo: Repo;
-  onUnpark: () => void;
+  onActivate: () => void;
 }) {
   return (
     <motion.div
@@ -276,7 +267,7 @@ function ParkedCard({
         )}
       </div>
       <button
-        onClick={onUnpark}
+        onClick={onActivate}
         className="flex-shrink-0 text-[10px] font-mono px-2.5 py-1 rounded border border-zinc-700 text-zinc-500 hover:text-zinc-300 hover:border-zinc-500 transition-colors whitespace-nowrap"
       >
         Activate →
@@ -340,9 +331,19 @@ function FrozenSection({ repos: frozen }: { repos: Repo[] }) {
 
 /* ─── Dashboard ───────────────────────────────────────────────────── */
 export function Dashboard() {
+  const { repos, activeCount, atLimit, loaded, setStatus, setFocusToday } = useRepos();
   const [wipBlocked, setWipBlocked] = useState(false);
-  const activeCount = activeRepos.length;
-  const atLimit = activeCount >= ACTIVE_LIMIT;
+
+  const activeRepos = repos.filter((r) => r.status === "active");
+  const parkedRepos = repos.filter((r) => r.status === "parked");
+  const frozenRepos = repos.filter(
+    (r) => r.status === "frozen" || r.status === "archived"
+  );
+
+  async function handleActivate(id: string) {
+    const ok = await setStatus(id, "active");
+    if (!ok) setWipBlocked(true);
+  }
 
   return (
     <div
@@ -420,86 +421,104 @@ export function Dashboard() {
           </div>
         </div>
 
+        {/* ── Loading skeleton ─────────────────────────────────── */}
+        {!loaded && (
+          <div className="flex gap-6">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="flex-1 h-48 rounded-xl border border-zinc-800 bg-[#111318] animate-pulse"
+              />
+            ))}
+          </div>
+        )}
+
         {/* ── Three-column board ──────────────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {loaded && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-          {/* Active */}
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-2 mb-1">
-              <div
-                className="w-1.5 h-1.5 rounded-full"
-                style={{ background: STATUS_COLORS.active }}
-              />
-              <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">
-                Active ({activeCount}/{ACTIVE_LIMIT})
-              </span>
+            {/* Active */}
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2 mb-1">
+                <div
+                  className="w-1.5 h-1.5 rounded-full"
+                  style={{ background: STATUS_COLORS.active }}
+                />
+                <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">
+                  Active ({activeCount}/{ACTIVE_LIMIT})
+                </span>
+              </div>
+              {activeRepos.map((repo) => (
+                <ActiveCard
+                  key={repo.id}
+                  repo={repo}
+                  setFocusToday={setFocusToday}
+                />
+              ))}
             </div>
-            {activeRepos.map((repo) => (
-              <ActiveCard key={repo.id} repo={repo} />
-            ))}
-          </div>
 
-          {/* Parked */}
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-2 mb-1">
-              <div
-                className="w-1.5 h-1.5 rounded-full"
-                style={{ background: STATUS_COLORS.parked }}
-              />
-              <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">
-                Parked ({parkedRepos.length})
-              </span>
+            {/* Parked */}
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2 mb-1">
+                <div
+                  className="w-1.5 h-1.5 rounded-full"
+                  style={{ background: STATUS_COLORS.parked }}
+                />
+                <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">
+                  Parked ({parkedRepos.length})
+                </span>
+              </div>
+              {parkedRepos.map((repo) => (
+                <ParkedCard
+                  key={repo.id}
+                  repo={repo}
+                  onActivate={() => handleActivate(repo.id)}
+                />
+              ))}
             </div>
-            {parkedRepos.map((repo) => (
-              <ParkedCard
-                key={repo.id}
-                repo={repo}
-                onUnpark={() => {
-                  if (atLimit) setWipBlocked(true);
-                }}
-              />
-            ))}
-          </div>
 
-          {/* Frozen + archived */}
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-2 mb-1">
-              <div
-                className="w-1.5 h-1.5 rounded-full"
-                style={{ background: STATUS_COLORS.frozen }}
-              />
-              <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">
-                Frozen / Archived ({frozenRepos.length})
-              </span>
+            {/* Frozen + archived */}
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2 mb-1">
+                <div
+                  className="w-1.5 h-1.5 rounded-full"
+                  style={{ background: STATUS_COLORS.frozen }}
+                />
+                <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">
+                  Frozen / Archived ({frozenRepos.length})
+                </span>
+              </div>
+              <FrozenSection repos={frozenRepos} />
             </div>
-            <FrozenSection repos={frozenRepos} />
           </div>
-        </div>
+        )}
 
         {/* ── Repo index ──────────────────────────────────────── */}
-        <div className="mt-12 border-t border-zinc-900 pt-8">
-          <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 block mb-4">
-            All repos ({repos.length})
-          </span>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-            {repos.map((repo) => (
-              <Link
-                key={repo.id}
-                to={`/projects/${repo.id}`}
-                className="flex items-center gap-2.5 p-3 rounded-lg border border-zinc-900 hover:border-zinc-800 hover:bg-zinc-900/30 transition-colors group"
-              >
-                <div
-                  className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                  style={{ background: STATUS_COLORS[repo.status] }}
-                />
-                <span className="text-[12px] text-zinc-400 group-hover:text-zinc-200 transition-colors truncate">
-                  {repo.name}
-                </span>
-                <ArrowUpRight className="w-3 h-3 text-zinc-700 group-hover:text-zinc-500 ml-auto flex-shrink-0 transition-colors" />
-              </Link>
-            ))}
+        {loaded && (
+          <div className="mt-12 border-t border-zinc-900 pt-8">
+            <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 block mb-4">
+              All repos ({repos.length})
+            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+              {repos.map((repo) => (
+                <Link
+                  key={repo.id}
+                  to={`/projects/${repo.id}`}
+                  className="flex items-center gap-2.5 p-3 rounded-lg border border-zinc-900 hover:border-zinc-800 hover:bg-zinc-900/30 transition-colors group"
+                >
+                  <div
+                    className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                    style={{ background: STATUS_COLORS[repo.status] }}
+                  />
+                  <span className="text-[12px] text-zinc-400 group-hover:text-zinc-200 transition-colors truncate">
+                    {repo.name}
+                  </span>
+                  <ArrowUpRight className="w-3 h-3 text-zinc-700 group-hover:text-zinc-500 ml-auto flex-shrink-0 transition-colors" />
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
