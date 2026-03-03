@@ -16,6 +16,7 @@ export interface Repo {
   parkReason?: string;
   monetization: string;
   strategicRole: string;
+  focusToday?: string;
 }
 
 export const repos: Repo[] = [
