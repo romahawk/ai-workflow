@@ -8,8 +8,8 @@ const SURFACE = "rgba(12, 15, 30, 0.75)";
 const BORDER = "rgba(255, 255, 255, 0.07)";
 const BORDER_INNER = "rgba(255, 255, 255, 0.045)";
 const TEXT_PRIMARY = "#f8fafc";
-const TEXT_SECONDARY = "#475569";
-const TEXT_MUTED = "#1e2d40";
+const TEXT_SECONDARY = "#94a3b8";
+const TEXT_MUTED = "#475569";
 const MONO = "'JetBrains Mono', monospace";
 
 /** Boost each phase's muted color to a vivid neon equivalent */
@@ -299,7 +299,7 @@ export default function Home() {
             {RULES.map((rule) => (
               <div key={rule} className="flex items-center gap-2">
                 <div className="w-1 h-1 rounded-full flex-shrink-0" style={{ background: "#7c3aed", boxShadow: "0 0 6px #7c3aed80" }} />
-                <span className="text-[10px]" style={{ color: "#334155" }}>{rule}</span>
+                <span className="text-[10px]" style={{ color: "#64748b" }}>{rule}</span>
               </div>
             ))}
           </div>
@@ -313,7 +313,7 @@ export default function Home() {
           className="mt-3 pt-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 flex-shrink-0"
           style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}
         >
-          <p className="text-[10px] tracking-wide" style={{ fontFamily: MONO, color: "#0f172a" }}>
+          <p className="text-[10px] tracking-wide" style={{ fontFamily: MONO, color: "#334155" }}>
             © {new Date().getFullYear()} Roman Mazuryk · Built using itself
           </p>
           <div className="flex items-center gap-5">
@@ -327,12 +327,12 @@ export default function Home() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1 text-[10px] transition-colors hover:text-slate-500"
-                style={{ fontFamily: MONO, color: "#0f172a" }}
+                style={{ fontFamily: MONO, color: "#334155" }}
               >
                 {label} <ExternalLink className="w-2.5 h-2.5" />
               </a>
             ))}
-            <span className="text-[10px]" style={{ fontFamily: MONO, color: "#0f172a" }}>
+            <span className="text-[10px]" style={{ fontFamily: MONO, color: "#334155" }}>
               React · Vite · Tailwind · shadcn/ui
             </span>
           </div>
