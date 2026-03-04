@@ -17,37 +17,32 @@ You are an auditor for the AI Production OS workflow. Scan this entire repositor
 produce a structured compliance report against the guardrails below. For every check,
 output one of: ✅ PASS | ⚠️ WARN | ❌ FAIL — followed by a one-line finding and, where
 applicable, the exact remediation command or change needed.
-
 At the end, output an OVERALL SCORE as: (passed checks) / (total checks) and a
 PRIORITY ACTION LIST of the top 3 things to fix first.
-
 Do not ask questions. Do not propose changes. Only report findings.
 
 ---
 
 ## CATEGORY 1 — Required files
-
 Check whether each of the following files exists at the path shown. FAIL if missing,
 PASS if present, WARN if present but empty or clearly a placeholder (all sections say
 "TODO" or similar).
 
 | Check | Path |
 |-------|------|
-| 1.1 CLAUDE.md (AI session rules) | ./CLAUDE.md |
+| 1.1 CLAUDE.md (AI session rules)    | ./CLAUDE.md |
 | 1.2 CONTRIBUTING.md (workflow guide) | ./CONTRIBUTING.md |
-| 1.3 CHANGELOG.md (release notes) | ./CHANGELOG.md |
-| 1.4 Roadmap | ./docs/ROADMAP.md |
-| 1.5 Sprint backlog | ./docs/SPRINT_BACKLOG.md |
-| 1.6 Architecture doc | ./docs/ARCHITECTURE.md |
-| 1.7 Daily checklist | ./docs/DAILY_CHECKLIST.md |
-| 1.8 PR template | ./.github/pull_request_template.md |
-| 1.9 Issue templates directory | ./.github/ISSUE_TEMPLATE/ |
+| 1.3 CHANGELOG.md (release notes)    | ./CHANGELOG.md |
+| 1.4 Roadmap                         | ./docs/ROADMAP.md |
+| 1.5 Sprint backlog                  | ./docs/SPRINT_BACKLOG.md |
+| 1.6 Architecture doc                | ./docs/ARCHITECTURE.md |
+| 1.7 Daily checklist                 | ./docs/DAILY_CHECKLIST.md |
+| 1.8 PR template                     | ./.github/pull_request_template.md |
+| 1.9 Issue templates directory       | ./.github/ISSUE_TEMPLATE/ |
 
 ---
 
 ## CATEGORY 2 — Git hygiene
-
-Run these commands and interpret the output:
 
 2.1 DEFAULT BRANCH PROTECTION
   Command: git log --oneline origin/main..HEAD 2>/dev/null || git log --oneline main..HEAD 2>/dev/null
@@ -69,7 +64,7 @@ Run these commands and interpret the output:
 
 2.3 RECENT COMMIT MESSAGE FORMAT
   Command: git log --oneline -10
-  For each commit check: does it follow "type(scope): short description" ?
+  For each commit check: does it follow "type(scope): short description"?
   Valid types: feat fix chore docs refactor test
   PASS if ≥ 80% of the last 10 commits conform.
   WARN if 50–79% conform.
@@ -113,7 +108,6 @@ Run these commands and interpret the output:
 ---
 
 ## CATEGORY 4 — Stack compliance
-
 Read package.json (dependencies + devDependencies).
 
 4.1 NO MUI / EMOTION
@@ -169,6 +163,16 @@ Read package.json (dependencies + devDependencies).
   PASS if found.
   WARN if absent.
 
+5.5 WEEKLY ROADMAP SYNC WORKFLOW EXISTS
+  Check for a .yml file under .github/workflows/ that contains all of:
+    - a cron schedule targeting Monday (e.g. "0 * * * 1" or "* * * * 1")
+    - "issues: write" permission
+    - a github.rest.issues.create (or equivalent) call
+  PASS if found.
+  WARN if a weekly workflow exists but does not open an issue (e.g. only sends
+  a notification).
+  FAIL if no weekly automation exists at all.
+
 ---
 
 ## CATEGORY 6 — Scope and roadmap discipline
@@ -201,10 +205,18 @@ Read package.json (dependencies + devDependencies).
   WARN if last entry is 30–90 days ago.
   FAIL if no entries or last entry > 90 days ago.
 
+6.5 ROADMAP UPDATED THIS WEEK
+  Command: git log --since="7 days ago" --oneline -- docs/ROADMAP.md
+  PASS if ≥ 1 commit to docs/ROADMAP.md appears in the last 7 days.
+  WARN if last commit to docs/ROADMAP.md is 8–30 days ago.
+  FAIL if docs/ROADMAP.md has never been committed or last touched > 30 days ago.
+  Note: a Monday Weekly Sync issue opened this week counts as PASS even without
+  a direct file commit, if the weekly-sync workflow (check 5.5) is present and
+  enabled.
+
 ---
 
 ## CATEGORY 7 — AI role boundary (CLAUDE.md content audit)
-
 Read CLAUDE.md.
 
 7.1 AI ROLE BOUNDARY DEFINED
@@ -224,6 +236,91 @@ Read CLAUDE.md.
   pass before committing.
   WARN if only one gate is mentioned.
   FAIL if neither is mentioned.
+
+---
+
+## CATEGORY 8 — README structure compliance
+The canonical README structure is defined by the JobSprint repository. Check
+README.md for each of these required sections. FAIL if a section is missing,
+WARN if present but empty or clearly a placeholder.
+
+8.1 30-SECOND PITCH SECTION
+  PASS if README contains a "30-Second Pitch" heading (or equivalent value-
+  proposition section that explains the product's core purpose in ≤ 5 sentences).
+  WARN if present but longer than a paragraph.
+  FAIL if absent.
+
+8.2 CURRENT STATUS SECTION
+  PASS if README contains a "Current Status" section that includes at minimum:
+    - a Stage field (e.g. "Stage: MVP+")
+    - a Scope summary
+    - an Adoption or process label
+  WARN if section exists but is missing ≥ 1 of the three fields.
+  FAIL if absent.
+
+8.3 TECH STACK SECTION
+  PASS if README contains a "Tech Stack" section listing the primary technologies.
+  FAIL if absent.
+
+8.4 SETUP COMMANDS
+  PASS if README contains a Setup (or equivalent) section with all four commands:
+    npm install  (or equivalent)
+    npm run dev
+    npm run build
+    npm run test  (or npm run test)
+  WARN if ≥ 1 command is missing.
+  FAIL if no setup section exists at all.
+
+8.5 DEPLOY SECTION WITH PRODUCTION URL
+  PASS if README contains a Deploy (or Deployment) section that includes a live
+  https:// URL and the hosting platform.
+  WARN if URL is present elsewhere in the README but not under a Deploy heading.
+  FAIL if no production URL exists anywhere in README.
+
+8.6 DOCUMENTATION INDEX
+  PASS if README contains a Documentation section (or equivalent) that links to
+  at least the following docs:
+    - Architecture (docs/ARCHITECTURE.md or similar)
+    - Roadmap (docs/ROADMAP.md or similar)
+    - Contributing guide (CONTRIBUTING.md)
+    - Changelog (CHANGELOG.md)
+  WARN if section exists but fewer than 4 of these links are present.
+  FAIL if no documentation index section exists.
+
+---
+
+## CATEGORY 9 — Extended docs compliance
+These checks verify that the docs/ directory follows the JobSprint canonical
+structure.
+
+9.1 PRD SECTIONS PRESENT
+  Read docs/PRD.md.
+  PASS if it contains all three of: Problem, Target User (or Audience), and MVP
+  Scope (or Core Loop) sections.
+  WARN if PRD exists but is missing ≥ 1 section.
+  FAIL if docs/PRD.md is absent.
+
+9.2 DECISIONS LOG HAS AT LEAST ONE ADR
+  Read docs/DECISIONS_LOG.md.
+  PASS if it contains ≥ 1 Architecture Decision Record with Date, Status, and
+  Decision fields.
+  WARN if file exists but contains no structured ADR entries.
+  FAIL if docs/DECISIONS_LOG.md is absent.
+
+9.3 NEXT SESSION START DOC IS CURRENT
+  Read docs/NEXT_SESSION_START.md.
+  PASS if it contains a "Last updated" date within the last 30 days AND a
+  "Start Here" section with ordered steps.
+  WARN if file exists but "Last updated" date is > 30 days ago, or the Start
+  Here section is missing.
+  FAIL if docs/NEXT_SESSION_START.md is absent.
+
+9.4 WORKFLOW AUTOMATION PLAYBOOK EXISTS
+  Read docs/WORKFLOW_AUTOMATION_PLAYBOOK.md.
+  PASS if it exists and references at least the CI and policy-check workflow
+  files.
+  WARN if file exists but does not list workflow files to copy.
+  FAIL if absent.
 
 ---
 
@@ -255,9 +352,15 @@ Use this exact structure:
 #### Category 7 — AI role boundary
 ...
 
+#### Category 8 — README structure compliance
+...
+
+#### Category 9 — Extended docs compliance
+...
+
 ---
 
-### Overall Score: X / 27 checks passed
+### Overall Score: X / 47 checks passed
 
 ### Critical (fix before next commit)
 1. [item]
@@ -270,7 +373,8 @@ Use this exact structure:
 
 ### Notes
 [Any observations that don't map to a specific check — e.g., unusual stack,
-large uncommitted changes, etc.]
+large uncommitted changes, 5.5/6.5 weekly-sync gap, etc.]
+
 ```
 
 ---
